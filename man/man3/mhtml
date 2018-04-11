@@ -1,0 +1,16 @@
+#!/bin/sh 
+# this is a shell file to make html versions of man pages
+#
+r=`echo $1 | sed -e 's/\(.*\)\..*/\1/'`
+groff -T html -P-l -P-r -P-h  -man $r.3  | \
+sed -e "s.<h1 align=center>.<table bgcolor="#ffffcc" width=100%><tr><td style="color:blue">xv4Package</td><td align=center><b>." \
+-e "s.font size=\"+1\".font size=\"-1\"." \
+-e "s.<h2>.<h4>." \
+-e "s.</h2>.</h4>." \
+-e "s.</h1>.</b></td><td align=right style="color:blue">xv4Package</td></tr></table>." \
+-e "s|</head>|<link rel="stylesheet" type="text/css" href="xv4s.css"></head>|" \
+-e 's.^<body>.<body class="xv4bod" LINK="#0000ff" VLINK="#ff0000" ALINK="#ff0000" TEXT="#000000" ><table class="xv4man" width="700"><tr><td>.' \
+-e 's.^</body>.</td></tr></table></body>.' \
+  > ../../html/$r.3.html
+# -e 's.<a href="#toc">Table of Contents.<b><h1> '$r' </b><A HREF="#toc">(table of contents)</a>xv4Package man page </h1>.' \
+# <table bgcolor="bgcolor="#006633" width=100%><tr><td>xv4Package</tr></td></table>

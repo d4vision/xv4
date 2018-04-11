@@ -1,0 +1,123 @@
+<!-- Creator     : groff version 1.18.1.1 -->
+<!-- CreationDate: Fri Jan  4 16:43:41 2013 -->
+<html>
+<head>
+<meta name="generator" content="groff -Thtml, see www.gnu.org">
+<meta name="Content-Style" content="text/css">
+<title>VXpZVAL</title>
+<link rel=stylesheet type=text/css href=xv4s.css></head>
+<body class="xv4bod" LINK="#0000ff" VLINK="#ff0000" ALINK="#ff0000" TEXT="#000000" ><table class="xv4man" width="700"><tr><td>
+
+<table bgcolor=#ffffcc width=100%><tr><td style=color:blue>xv4Package</td><td align=center><b>VXpZVAL</b></td><td align=right style=color:blue>xv4Package</td></tr></table>
+<a name="NAME"></a>
+<b><font size="-1">NAME</font></b>
+<!-- INDENTATION -->
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td>
+<td width="89%">
+<p>VXpzval, VXpzset, VXpchan &minus; VisionX primitive image
+functions</p>
+</td>
+</table>
+<a name="SYNOPSIS"></a>
+<b><font size="-1">SYNOPSIS</font></b>
+<!-- INDENTATION -->
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td>
+<td width="89%">
+<pre><b>float VXpzval(iptr);
+</b>VisXelem_t *ipr;
+<b>void VXpzset(iptr, val);
+</b>float val;
+<b>int VXpchan(iptr );
+</b></pre>
+</td>
+</table>
+<a name="DESCRIPTION"></a>
+<b><font size="-1">DESCRIPTION</font></b>
+<!-- INDENTATION -->
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td>
+<td width="89%">
+<p>The primitive image functions operate on an image
+specification without the reference structure created by
+VXmakeimage(3). An image in a data list consists of two
+consecutive data elements, a bounding box followed by a
+conforming pixel data element. These functions accept as an
+argument either of these two elements.</p>
+</td>
+</table>
+<a name="VXPZVAL"></a>
+<b><font size="-1">VXPZVAL</font></b>
+<!-- INDENTATION -->
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td>
+<td width="89%">
+<p><i>VXpzval</i> returns the z coordinate value associated
+with an image; if no value is asssociated with the image
+(i.e., there are no z-values in the bounding box or both
+values are the same) then <i>VXpzval</i> returns
+MAXFLOAT.</p>
+</td>
+</table>
+<a name="VXPZSET"></a>
+<b><font size="-1">VXPZSET</font></b>
+<!-- INDENTATION -->
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td>
+<td width="89%">
+<p><i>VXpzset</i> sets the z parameter in an image structure
+to the value specified by <i>val.</i> This value is set by
+consecutive numbers in the z elements of the bounding box.
+If there are not enough elements in the bounding box
+<i>VXpzset</i> will add them.</p>
+</td>
+</table>
+<a name="VXPCHAN"></a>
+<b><font size="-1">VXPCHAN</font></b>
+<!-- INDENTATION -->
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td>
+<td width="89%">
+<p><i>VXpchan</i> returns the number of channels in the
+image structure. If there is a problem with the image
+structure <i>VXpchan</i> returns zero.</p>
+</td>
+</table>
+<a name="SEE ALSO"></a>
+<b><font size="-1">SEE ALSO</font></b>
+<!-- INDENTATION -->
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td>
+<td width="89%">
+<p>VXmakeimage(3).</p>
+</td>
+</table>
+<a name="AUTHOR"></a>
+<b><font size="-1">AUTHOR</font></b>
+<!-- INDENTATION -->
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td>
+<td width="89%">
+<p>Program and Documentation Copyright Anthony P. Reeves</p>
+</td>
+</table>
+</td></tr></table></body>
+</html>

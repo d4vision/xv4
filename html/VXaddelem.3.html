@@ -1,0 +1,146 @@
+<!-- Creator     : groff version 1.18.1.1 -->
+<!-- CreationDate: Fri Jan  4 16:43:40 2013 -->
+<html>
+<head>
+<meta name="generator" content="groff -Thtml, see www.gnu.org">
+<meta name="Content-Style" content="text/css">
+<title>VXADDELEM</title>
+<link rel=stylesheet type=text/css href=xv4s.css></head>
+<body class="xv4bod" LINK="#0000ff" VLINK="#ff0000" ALINK="#ff0000" TEXT="#000000" ><table class="xv4man" width="700"><tr><td>
+
+<table bgcolor=#ffffcc width=100%><tr><td style=color:blue>xv4Package</td><td align=center><b>VXADDELEM</b></td><td align=right style=color:blue>xv4Package</td></tr></table>
+<a name="NAME"></a>
+<b><font size="-1">NAME</font></b>
+<!-- INDENTATION -->
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td>
+<td width="89%">
+<p>VXaddelem, VXlnkelem, VXdelelem &minus; VisionX element
+manipulation functions</p>
+</td>
+</table>
+<a name="SYNOPSIS"></a>
+<b><font size="-1">SYNOPSIS</font></b>
+<!-- INDENTATION -->
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td>
+<td width="89%">
+<pre><b>VisXelem_t *VXaddelem (lptr, vxtype, buf, size);
+</b>VisXelem_t *lptr;
+int vxtype, size;
+char *buf;
+<b>VisXelem_t *VXlnkelem (lptr, vxtype, buf, size);
+</b>VisXelem_t *lptr;
+int vxtype, size;
+char *buf;
+<b>VisXelem_t *VXdelelem (lptr);
+</b>VisXelem_t *list;
+</pre>
+</td>
+</table>
+<a name="DESCRIPTION"></a>
+<b><font size="-1">DESCRIPTION</font></b>
+<!-- INDENTATION -->
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td>
+<td width="89%">
+<p>VisionX represents information internally as a doubly
+linked list of data elements. Each element contains a type
+descriptor, forward and backward pointers to other elements,
+and data. The VisionX file i/o functions read and write
+these lists.</p>
+<!-- INDENTATION -->
+<p>The first element of a list is always a dummy element
+that is required for consistency. The element manipulation
+functions provide a set of programming tools for locating
+and performing operations on single list elements.</p>
+<!-- INDENTATION -->
+<p>The element manipulation functions include the following:
+<i>VXaddelem</i> &minus; add a new element after the given
+pointer position <i>VXlnkelem</i> &minus; link a new element
+after the given pointer position and <i>VXdelelem</i>
+&minus; delete the current element.</p>
+</td>
+</table>
+<a name="VXADDELEM"></a>
+<b><font size="-1">VXADDELEM</font></b>
+<!-- INDENTATION -->
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td>
+<td width="89%">
+<p><i>VXaddelem</i> adds a new data element AFTER the
+element pointed to by <i>lptr.</i> The contents of the
+element are specified by the remaining arguments.
+<i>vxtype</i> specifies the VisionX type of the element,
+<i>buf is a pointer to a buffer where the data is contained,
+and size</i> specifies the size of the data in buf (IN
+BYTES). VXaddelem creates the new element and copies the
+data from the data buffer. Note, if the base type of the
+element is a scalar (VX_SCALAR) then <i>size</i> specifies
+the value of the element and <i>buf</i> is ignored. Note, if
+the base type of the element is a null (VX_NULL) then both
+the arguments <i>size</i> and <i>buf</i> are ignored.
+VXaddelem returns a pointer to the new element.</p>
+</td>
+</table>
+<a name="VXLNKELEM"></a>
+<b><font size="-1">VXLNKELEM</font></b>
+<!-- INDENTATION -->
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td>
+<td width="89%">
+<p><i>VXlnkelem</i> is similar in operation to VXaddelem
+with the difference that the data buffer specified by
+<i>buf</i> is simply linked (pointed to) by the new element.
+Note, <i>buf</i> MUST have been previously dynamically
+allocated with Vmalloc. VXlnkelem may frequently be used
+instead of VXaddelem and is useful for efficiency because it
+avoids copying the data array <i>buf.</i> However, the
+program is responsible for allocating the buffer and must
+not reuse or deallocate this buffer after the call to
+VXlnkelem. This function should only be used by experienced
+programmers.</p>
+</td>
+</table>
+<a name="VXDELELEM"></a>
+<b><font size="-1">VXDELELEM</font></b>
+<!-- INDENTATION -->
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td>
+<td width="89%">
+<p><i>VXdelelem</i> deletes the element pointed to by the
+argument <i>lptr.</i> If there exists an element in the list
+following the element being deleted then a pointer to that
+element is returned. If the element being deleted is the
+last element in the list then a pointer to the previous
+element is returned. (If the list is empty then the dummy
+element is deleted and a null pointer (VXNIL) is
+returned).</p>
+</td>
+</table>
+<a name="AUTHOR"></a>
+<b><font size="-1">AUTHOR</font></b>
+<!-- INDENTATION -->
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td>
+<td width="89%">
+<p>Program and Documentation Copyright Anthony P. Reeves</p>
+</td>
+</table>
+</td></tr></table></body>
+</html>

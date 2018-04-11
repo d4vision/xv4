@@ -1,0 +1,61 @@
+.TH VXPACK 3  VisionX "A.P. Reeves" "VisionX USER\'S MANUAL"
+.SH NAME
+VXpack, VXupack, VXpklist, VXupklist \- VisionX  element packing 
+.SH SYNOPSIS
+.nf
+.B 
+void VXpack (int pmode);
+.B
+void VXupack (int umode);
+.B
+void VXpklist (VisXelem_t *list);
+.B
+void VXupklist (VisXelem_t *list);
+.fi
+.SH DESCRIPTION
+The VisionX file system has the capability to store sets of elements
+in a single "packed" element. The advantage of this capability is file
+i/o performance.
+A large number of elements may be read with a single system read.
+By default, any packed element will be unpacked by the read functions
+VXread and VXreadframe which makes packing transparent to the
+user (or programmer).
+
+Data packing is especially useful for graphics data files that involve
+a very large number of small elements.
+.I VXpack
+and
+.I VXupack
+allow the global strategies for packing and unpacking to be set.
+
+VXupack(0) sets the default mode of completely unpacking all packed 
+elements. VXupack(1) sets a fast strategy that does not perform
+mallocs for each unpacked element. The down side of this capability
+is that memory assigned to elements can no longer be deallocated when
+an element is deleted. This mode offers performance enhancement
+for may graphics applications but will likely cause memory problems
+for applications involving very large files. Once this mode has been
+set, memory deallocation cannot be reestablished by setting VXupack
+to a different mode. VXupack(2) inhibits automatic unpacking of
+packed elements (packed elements may be explicitly unpacked with 
+VXupklist()).
+
+VXpack(0) diasables automatic packing which is the default.
+VXpack(1) sets automatic packing for the functions VXwrite() and
+VXwriteframe(). In this mode, the whole list will be packed into
+a single packed element. Frame start and frame end elements are not packed
+so that frame i/o can still be performed; however, the elements
+between frame elements wil be packed. Note, after a call to VXwrite
+or VXwriteframe in this mode the list passed to these functions will
+be in packed form as if VXpklist() had been called on it.
+
+The functions
+.I VXupklist()
+and 
+.I VXpklist()
+permit the explicit packing and unpacking of lists.
+VXpklist() will pack a list according to the rules specified for
+VXpack(1). VXupklist() will unpack a packed element in a list.
+
+.SH AUTHOR
+Program and Documentation Copyright Anthony P. Reeves

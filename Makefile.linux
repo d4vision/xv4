@@ -1,0 +1,117 @@
+#
+# Top-Level Makefile.linux
+#
+#
+#
+#  Copyright 2014 Anthony P. Reeves
+#
+#  This file is part of xv4Package.
+#
+#  xv4Package is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 3 of the License, or
+#  any later version.
+#
+#  xv4Package is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+#  You should have received a copy of the GNU General Public License
+#  along with xv4Package.  If not, see <http://www.gnu.org/licenses/>.
+#
+#
+
+
+# The main destination directory
+XV4DIR  = /opt/xv4
+
+# Optimization/Warning flags
+OPTIM	= -O -Wall
+
+# Editing of the following installation tree is discouraged
+DESTBIN	= ${XV4DIR}/bin
+DESTLIB	= ${XV4DIR}/lib
+DESTETC	= ${XV4DIR}/etc
+DESTMAN	= ${XV4DIR}/man
+DESTHTP	= ${XV4DIR}/html
+DESTDEV	= ${XV4DIR}/devel
+DESTINC	= ${XV4DIR}/include
+
+INSTALL = install
+
+
+PLATFORM = linux
+
+.PHONY: all makefiles lib apps install clean
+
+
+all: makefiles lib apps
+
+
+
+lib:
+	$(MAKE) -C src/lib
+
+
+apps:
+	$(MAKE) -C src/apps
+
+
+install:
+	$(MAKE) -C src/lib install
+	$(MAKE) -C src/apps install
+	@($(INSTALL) -D devel/Makefile ${DESTDEV})
+	@(cd man/man3 && for i in *.3; do \
+		echo "installing $$i";\
+		$(INSTALL) -D $$i ${DESTMAN}/$${i%%.out};\
+		done; \
+		echo "Man page install done")
+	@(cd html && for i in *.html; do \
+		echo "installing $$i";\
+		$(INSTALL) -D $$i ${DESTHTP}/$${i%%.out};\
+		done; \
+		echo "Html page install done")
+
+
+
+clean:
+	$(MAKE) -C src/lib clean
+	$(MAKE) -C src/apps clean
+
+
+makefiles:
+	@(cd src/lib && echo "# DO NOT EDIT" > Makefile; \
+	echo XV4DIR  = $(XV4DIR) >> Makefile; \
+	echo OPTIM = $(OPTIM) >> Makefile; \
+	echo DESTBIN = $(DESTBIN) >> Makefile; \
+	echo DESTLIB = $(DESTLIB) >> Makefile; \
+	echo DESTETC = $(DESTETC) >> Makefile; \
+	echo DESTMAN = $(DESTMAN) >> Makefile; \
+	echo DESTINC = $(DESTINC) >> Makefile; \
+	echo "# Begin of platform-specific file" >> Makefile; \
+	cat Makefile.$(PLATFORM) >> Makefile \
+	)
+	@(cd src/apps && echo "# DO NOT EDIT" > Makefile; \
+	echo XV4DIR  = $(XV4DIR) >> Makefile; \
+	echo OPTIM = $(OPTIM) >> Makefile; \
+	echo DESTBIN = $(DESTBIN) >> Makefile; \
+	echo DESTLIB = $(DESTLIB) >> Makefile; \
+	echo DESTETC = $(DESTETC) >> Makefile; \
+	echo DESTMAN = $(DESTMAN) >> Makefile; \
+	echo DESTINC = $(DESTINC) >> Makefile; \
+	echo "# Begin of platform-specific file" >> Makefile; \
+	cat Makefile.$(PLATFORM) >> Makefile \
+	)
+	@(cd devel && echo "# DO NOT EDIT" > Makefile; \
+	echo XV4DIR  = $(XV4DIR) >> Makefile; \
+	echo OPTIM = $(OPTIM) >> Makefile; \
+	echo DESTBIN = $(DESTBIN) >> Makefile; \
+	echo DESTLIB = $(DESTLIB) >> Makefile; \
+	echo DESTETC = $(DESTETC) >> Makefile; \
+	echo DESTMAN = $(DESTMAN) >> Makefile; \
+	echo DESTINC = $(DESTINC) >> Makefile; \
+	echo "# Begin of platform-specific file" >> Makefile; \
+	cat Makefile.$(PLATFORM) >> Makefile \
+	)
+

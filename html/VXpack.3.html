@@ -1,0 +1,104 @@
+<!-- Creator     : groff version 1.18.1.1 -->
+<!-- CreationDate: Fri Jan  4 16:43:40 2013 -->
+<html>
+<head>
+<meta name="generator" content="groff -Thtml, see www.gnu.org">
+<meta name="Content-Style" content="text/css">
+<title>VXPACK</title>
+<link rel=stylesheet type=text/css href=xv4s.css></head>
+<body class="xv4bod" LINK="#0000ff" VLINK="#ff0000" ALINK="#ff0000" TEXT="#000000" ><table class="xv4man" width="700"><tr><td>
+
+<table bgcolor=#ffffcc width=100%><tr><td style=color:blue>xv4Package</td><td align=center><b>VXPACK</b></td><td align=right style=color:blue>xv4Package</td></tr></table>
+<a name="NAME"></a>
+<b><font size="-1">NAME</font></b>
+<!-- INDENTATION -->
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td>
+<td width="89%">
+<p>VXpack, VXupack, VXpklist, VXupklist &minus; VisionX
+element packing</p>
+</td>
+</table>
+<a name="SYNOPSIS"></a>
+<b><font size="-1">SYNOPSIS</font></b>
+<!-- INDENTATION -->
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td>
+<td width="89%">
+<pre><b>void VXpack (int pmode);
+void VXupack (int umode);
+void VXpklist (VisXelem_t *list);
+void VXupklist (VisXelem_t *list);
+</b></pre>
+</td>
+</table>
+<a name="DESCRIPTION"></a>
+<b><font size="-1">DESCRIPTION</font></b>
+<!-- INDENTATION -->
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td>
+<td width="89%">
+<p>The VisionX file system has the capability to store sets
+of elements in a single &quot;packed&quot; element. The
+advantage of this capability is file i/o performance. A
+large number of elements may be read with a single system
+read. By default, any packed element will be unpacked by the
+read functions VXread and VXreadframe which makes packing
+transparent to the user (or programmer).</p>
+<!-- INDENTATION -->
+<p>Data packing is especially useful for graphics data files
+that involve a very large number of small elements.
+<i>VXpack</i> and <i>VXupack</i> allow the global strategies
+for packing and unpacking to be set.</p>
+<!-- INDENTATION -->
+<p>VXupack(0) sets the default mode of completely unpacking
+all packed elements. VXupack(1) sets a fast strategy that
+does not perform mallocs for each unpacked element. The down
+side of this capability is that memory assigned to elements
+can no longer be deallocated when an element is deleted.
+This mode offers performance enhancement for may graphics
+applications but will likely cause memory problems for
+applications involving very large files. Once this mode has
+been set, memory deallocation cannot be reestablished by
+setting VXupack to a different mode. VXupack(2) inhibits
+automatic unpacking of packed elements (packed elements may
+be explicitly unpacked with VXupklist()).</p>
+<!-- INDENTATION -->
+<p>VXpack(0) diasables automatic packing which is the
+default. VXpack(1) sets automatic packing for the functions
+VXwrite() and VXwriteframe(). In this mode, the whole list
+will be packed into a single packed element. Frame start and
+frame end elements are not packed so that frame i/o can
+still be performed; however, the elements between frame
+elements wil be packed. Note, after a call to VXwrite or
+VXwriteframe in this mode the list passed to these functions
+will be in packed form as if VXpklist() had been called on
+it.</p>
+<!-- INDENTATION -->
+<p>The functions <i>VXupklist()</i> and <i>VXpklist()</i>
+permit the explicit packing and unpacking of lists.
+VXpklist() will pack a list according to the rules specified
+for VXpack(1). VXupklist() will unpack a packed element in a
+list.</p>
+</td>
+</table>
+<a name="AUTHOR"></a>
+<b><font size="-1">AUTHOR</font></b>
+<!-- INDENTATION -->
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td>
+<td width="89%">
+<p>Program and Documentation Copyright Anthony P. Reeves</p>
+</td>
+</table>
+</td></tr></table></body>
+</html>

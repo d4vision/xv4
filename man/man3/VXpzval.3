@@ -1,0 +1,55 @@
+.TH VXpZVAL 3  VisionX "A.P. Reeves" "VisionX USER\'S MANUAL"
+.SH NAME
+VXpzval, VXpzset, VXpchan  \- VisionX  primitive image functions 
+.SH SYNOPSIS
+.nf
+.B
+float VXpzval(iptr);
+VisXelem_t *ipr;
+.B
+void VXpzset(iptr, val);
+float val;
+.B
+int VXpchan(iptr );
+.fi
+
+.SH DESCRIPTION
+The primitive image functions operate on an image specification without the
+reference structure created by VXmakeimage(3).
+An image in a data list consists of two consecutive data elements,
+a bounding box followed by a conforming pixel data element.
+These functions accept as an argument either of these two elements.
+
+.SH VXPZVAL
+.PP
+.I VXpzval
+returns the z coordinate value associated with an image;
+if no value is asssociated with the image (i.e., there are no z-values
+in the bounding box or both values are the same) then 
+.I VXpzval
+returns MAXFLOAT.
+
+
+.SH VXPZSET
+.PP
+.I VXpzset
+sets the z parameter in an image structure to the value specified by
+.I val.
+This value is set by consecutive numbers in the z elements of the
+bounding box. If there are not enough elements in the bounding box
+.I VXpzset
+will add them.
+
+.SH VXPCHAN
+.PP
+.I VXpchan
+returns the number of channels in the image structure.
+If there is a problem with the image structure 
+.I VXpchan
+returns zero.
+
+.SH SEE ALSO
+VXmakeimage(3).
+
+.SH AUTHOR
+Program and Documentation Copyright Anthony P. Reeves

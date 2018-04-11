@@ -1,0 +1,85 @@
+# Each VisionX type is identified by a unique numeric code
+# and is given both a programing name and a text description.
+# The following types are currently defined for VisionX lists:
+#
+LBegin
+#
+#   Function       Code  Program Name 
+#
+#    Image Frames
+#
+Image Frame    ; 0x1a; VX_FRAME
+End Frame      ; 0x2a; VX_EFRAME
+#
+Compact List   ; 0x08; VX_COMP
+2-D vector     ; 0x33; VX_V2D
+3-D vector     ; 0x43; VX_V3D
+Inverted Y     ; 0x39; VX_INVY
+Z is Frame     ; 0x49; VX_ZISF
+Vertex ID      ; 0xda; VX_VID
+Adjacency Index; 0xd7; VX_ADJ
+Bounding Box   ; 0x53; VX_BBX
+#
+#   Coordinate Transform matrix
+Coord Trans    ; 0x83; VX_TRANMX
+Render option  ; 0x6a; VX_REND
+#
+#   Color Vector r,g,b (float)
+Color Triple   ; 0x63; VX_COLOR
+#
+#   Color Map r,g,b (byte)
+Color Map      ; 0x61; VX_CMAP
+Object ID.     ; 0x5a; VX_ID
+ID Vector      ; 0x57; VX_IDV
+Color Index    ; 0x67; VX_CIDX
+#   Feature vectors
+Feature Hdr.   ; 0xd0; VX_GFH
+Feature Vec.   ; 0x73; VX_GFV
+Distance Vec.  ; 0xd3; VX_DIST
+#
+#   File Elements
+#
+File History   ; 0x20; VX_FHIST
+File Name      ; 0x30; VX_FNAME
+File Machine   ; 0x50; VX_FMACH
+File Command   ; 0x40; VX_FCMND
+File Date      ; 0x4a; VX_FTIME
+File User ID   ; 0x3a; VX_FUID
+#
+#   VisionX Pixel types
+#
+Pixels (byte)  ; 0xa1; VX_PBYTE
+Pixels (short) ; 0xa2; VX_PSHORT
+Pixels (float) ; 0xa3; VX_PFLOAT
+Pixels (Double); 0xa4; VX_PDOUBLE
+Pixels (S-byte); 0xa5; VX_PCHAR
+Pixels (Bit)   ; 0xa6; VX_PBIT
+Pixels (Int)   ; 0xa7; VX_PINT
+Pixels (Index) ; 0xb1; VX_PIDX
+Pixel Channels ; 0xaa; VX_PCHAN
+#
+#   VisionX Generic Measures
+#
+Generic(text)  ; 0xc0; VX_GTEXT
+Generic(byte)  ; 0xc1; VX_GBYTE
+Generic(short) ; 0xc2; VX_GSHORT
+Generic(float) ; 0xc3; VX_GFLOAT
+Generic(Double); 0xc4; VX_GDOUBLE
+Generic(S-byte); 0xc5; VX_GCHAR
+Generic(Bit)   ; 0xc6; VX_GBIT
+Generic(Int)   ; 0xc7; VX_GINT
+Generic(Scalar); 0xca; VX_GSINT
+#
+# Miscellaneous Types
+# Text tables
+Text Table(tab); 0x70; VX_TTABLE
+Text Table(,)  ; 0x80; VX_CTABLE
+# ANALYZE header
+ANALYZE 7.5 hdr; 0xd1; VX_ANHDR
+# DICOM header
+DICOM P10 hdr  ; 0xe1; VX_DICOM
+# Jiview book mark 
+Annotation     ; 0x60; VX_ANNOTE
+#
+Not Defined    ; 0x00; VX_NULLT
+LEnd

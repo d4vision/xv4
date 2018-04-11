@@ -1,0 +1,59 @@
+.TH VXOPEN 3  VisionX "A.P. Reeves" "VisionX USER\'S MANUAL"
+.SH NAME
+VXopen, VXclose,  \- VisionX  File access functions 
+.SH SYNOPSIS
+.nf
+.B
+VisXfile_t *VXopen(fname, mode);
+int  mode;
+char *fname;
+.B
+void VXclose(vfile);
+VisXfile_t *vfile;
+
+.SH DESCRIPTION
+.I 
+VXopen
+performs the file opening function for VisionX files; similar to the
+UNIX open system cal for UNIX files.
+The argument 
+.I mode
+may be zero for opening a file for reading and 1 for opening a file for
+writing.  If the file name  argument
+.I fname
+is a null string then standard input or standard output are 
+used as specified by the mode.
+VXopen allocates and returns a pointer to a VisionX file structure
+(VisXfile_t). This structure is used by other VisionX file operations.
+.PP
+When the mode is set to zero, VXopen opens a file for reading, it
+checks that the file is a correctly structured VisionX file.
+It will also automatically organize the reformatting of various 
+different file formats including most popular compression schemes.
+Note, when VXopen returns some of the specified file has been read.
+Various global elements, such as the file history, are attached to
+the VisXfile structure and may be accessed by other VisionX file-i/o
+functions such as VXread or VXreadframe.
+.PP
+When the mode is set to one, VXopen opens the file for writing
+(and creates it if it does not exist)
+and sets up the VisionX file structure for that file.
+It does not actually write anything to the file, the first call
+to a VisionX file write function such as VXwrite or
+VXwriteframe will write global  information from the file structure to the file.
+If the file is not to be used for VisionX structured information then
+the file structure element 
+.I .fd
+contains the file descriptor and it may be used by other conventional
+UNIX utilities to write data to the file.
+.PP
+.I
+VXclose
+Closes a file that has been opened by VXopen. It should be called once
+all the data for a file has been read or written.
+
+.SH SEE ALSO
+open(2), VXread(3)
+
+.SH AUTHOR
+Program and Documentation Copyright Anthony P. Reeves

@@ -1,0 +1,88 @@
+.TH VXINIT 3  VisionX "A.P. Reeves" "VisionX USER\'S MANUAL"
+.SH NAME
+VXinit, VXcpy, VXlnklist, VXdellist \- VisionX  list manipulation functions 
+.SH SYNOPSIS
+.nf
+.B
+VisXelem_t *VXinit ();
+.B
+VisXelem_t *VXcpy (list);
+VisXelem_t *list;
+.B
+void VXlnklist (lista, listb);
+VisXelem_t *lista, *listb;
+.B
+void VXdellist (list);
+VisXelem_t *list;
+.fi
+
+.SH DESCRIPTION
+VisionX represents information internally as a doubly linked list
+of data elements. Each element contains a type descriptor,
+forward and backward pointers to other elements, and data.
+The VisionX file i/o functions read and write these lists.
+
+The first element of a list
+is always a dummy element that is required for consistency.
+The list manipulation functions
+provide a set of programming tools for performing operations on whole
+list structures.
+
+The list manipulation toolkit contains the following functions:
+.I VXinit
+\- creates an empty list structure,
+.I
+VXcpy \- make a copy of a list
+.I VXlnklist
+\- link a list into another list
+and
+.I VXdellist
+\- delete a complete list.
+
+.SH VXINIT
+.PP
+.I VXinit
+creates an empty list structure to which elements and lists may be
+added.
+A dummy data element is created which is necessary for
+consistent list operations; VXinit returns a pointer to this element.
+The dummy element is not copied to a  file when the list is written;
+it is deleted when the list is deleted.
+
+.SH VXCPY
+.PP
+.I VXcpy
+makes a copy of a list starting at the element pointed at by the argument
+.I list
+and includes all the following elements.
+VXcpy automatically creates the required first dummy element and
+returns a pointer to the copied list.
+
+.SH VXLNKLIST
+.PP
+.I VXlnklist
+Moves the whole of the list to which argument
+.I listb
+points to and inserts it after the element pointed to by argument
+.I lista.
+(listb does not have to point to the start of its list).
+All that remains of the list pointed to by  listb is the dummy element.
+Note, adding  one list to the end of another list can be achieved
+with VXlnklist(VXlast(lista), listb).
+
+.SH VXDELLIST
+.PP
+.I VXdellist
+deletes all elements of the argument 
+.I list
+starting at the element 
+.I list
+to the end of the list.
+Note, VXdellist will delete the dummy element if 
+.I list
+points to the dummy element; however, VXdellist(VXfirst(list)),
+will delete all elements of a list except the dummy element.
+
+
+.SH AUTHOR
+Program and Documentation Copyright Anthony P. Reeves

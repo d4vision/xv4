@@ -1,0 +1,115 @@
+<!-- Creator     : groff version 1.18.1.1 -->
+<!-- CreationDate: Fri Jan  4 16:43:40 2013 -->
+<html>
+<head>
+<meta name="generator" content="groff -Thtml, see www.gnu.org">
+<meta name="Content-Style" content="text/css">
+<title>VXFLOATIMAGE</title>
+<link rel=stylesheet type=text/css href=xv4s.css></head>
+<body class="xv4bod" LINK="#0000ff" VLINK="#ff0000" ALINK="#ff0000" TEXT="#000000" ><table class="xv4man" width="700"><tr><td>
+
+<table bgcolor=#ffffcc width=100%><tr><td style=color:blue>xv4Package</td><td align=center><b>VXFLOATIMAGE</b></td><td align=right style=color:blue>xv4Package</td></tr></table>
+<a name="NAME"></a>
+<b><font size="-1">NAME</font></b>
+<!-- INDENTATION -->
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td>
+<td width="89%">
+<p>VXfloatimage, VXufloatimage, VXfloat3dim, VXufloat3dim
+&minus; VisionX float image conversion</p>
+</td>
+</table>
+<a name="SYNOPSIS"></a>
+<b><font size="-1">SYNOPSIS</font></b>
+<!-- INDENTATION -->
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td>
+<td width="89%">
+<pre><b>int VXfloatimage(fm, im, x1,x2,y1,y2);
+</b>VisXimage_t *fm, *im;
+float x1,x2,y1,y2;
+<b>void VXufloatimage(im, fm);
+</b>VisXimage_t *im, *fm;
+<b>int VXfloat3dim(i, j ,x1,x2,y1,y2,z1,z2);
+</b>VisX3dim_t *i, *j;
+float x1,x2,y1,y2,z1,z2;
+<b>int VXufloat3dim(i, j);
+</b>VisX3dim_t *i, *j;
+
+</pre>
+</td>
+</table>
+<a name="DESCRIPTION"></a>
+<b><font size="-1">DESCRIPTION</font></b>
+<!-- INDENTATION -->
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td>
+<td width="89%">
+<p><i>VXfloatimage</i> creates a copy of a VisionX image
+structure with the data converted to float data type and
+<i>VXufloatimage</i> performs the inverse function of
+copying the image data into an existing image structure.
+Note, VXfloatimage creates a new image structure while
+VXufloatimage copies into an existing image structure.</p>
+<!-- INDENTATION -->
+<p>The additional arguments to VXfloatimage are positive
+integers that specify a border region of zeros for each of
+the four sides of the image (in a similar manner to
+VXembedimage). This feature is very useful for local
+filtering operations since it permits simple access to
+elements outside the boudary of the original image. To make
+a direct copy of an image simply set the border values to
+zero.</p>
+<!-- INDENTATION -->
+<p>This pair of functions are very useful for specifying a
+very simple form of polymorhism. The input data can be
+convereted to float format then after processing the result
+can easily be copied back into the original image structure
+with VXufloatimage. For example, consider the following
+program structure:</p>
+<!-- INDENTATION -->
+<pre>   VXsetimage(&amp;a,...);
+   VXfloatimage(&amp;f,&amp;a,...);
+   /* process the float image f */
+   VXufloatimage(&amp;a,&amp;f);
+   VXresetimage(&amp;f);
+   VXresetimage(&amp;a);
+
+</pre>
+<!-- INDENTATION -->
+<p><i>VXfloat3dim,</i> and <i>VXufloat3dim,</i> provide
+similar functions as VXfloatimage and VXufloatimage except
+for 3D image structures.</p>
+</td>
+</table>
+<a name="SEE ALSO"></a>
+<b><font size="-1">SEE ALSO</font></b>
+<!-- INDENTATION -->
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td>
+<td width="89%">
+<p>VXmakeimage(3), VXrbufimage(3)</p>
+</td>
+</table>
+<a name="AUTHOR"></a>
+<b><font size="-1">AUTHOR</font></b>
+<!-- INDENTATION -->
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td>
+<td width="89%">
+<p>Program and Documentation Copyright Anthony P. Reeves</p>
+</td>
+</table>
+</td></tr></table></body>
+</html>

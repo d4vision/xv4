@@ -1,0 +1,10 @@
+#!/bin/sh
+# make html version of library man pages
+# this must run in the man3 directory
+
+for i in `ls *.3`
+do
+  root=`echo $i| sed -e 's/\(.*\)\..*/\1/'`
+  echo $root
+  mhtml $root
+done

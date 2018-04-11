@@ -1,0 +1,159 @@
+.TH VXMAKE3DIM 3  VisionX "A.P. Reeves" "VisionX USER\'S MANUAL"
+.SH NAME
+VXmake3dim, VXset3dim, VXembed3dim, VXbit3dim, VXreset3dim \- VisionX 3D image access 
+.SH SYNOPSIS
+.nf
+.B
+int VXmake3dim(image, type, bbx, chan);
+VisX3dim_t *image;
+float bbx[4];
+int type, chan;
+.B
+int VXset3dim(image, a, f);
+VisX3dim_t *image;
+VisXelem_t *a;
+VisXfile_t *f;
+.B
+int VXembed3dim(i, j ,x1,x2,y1,y2,z1,z2);
+VisX3dim_t *i, *j;
+float x1,x2,y1,y2,z1,z2;
+.B
+VXbit3dim(i);
+VisX3dim_t *i;
+.B
+int VXreset3dim(i);
+VisX3dim_t *i;
+.fi
+
+.SH DESCRIPTION
+Three dimensional image data in VisionX is managed by a set
+of programming tools that
+record image array accessing information in a single structure (VisX3dim_t).
+
+These tools are suitable for the convenient manipulation of small 3D
+images only since the complete data structures are maintained in
+memory. For large 3D images and large temporal image sequences the
+two-dimensional tools augmented with image buffers should be used,
+see VXrbufimage(3).
+
+A 3D image is stored in an image file as a set of 2D images.
+An image in a data list consists of two consecutive data elements,
+a bounding box followed by a conforming pixel data element.
+The 3D image tools provide convenient structured access to a related 3D set
+of images under the constraints of an extracted 3D bounding box.
+.PP
+The 3D image toolkit contains the following functions:
+.I VXmake3dim
+\- creates a 3D image structure,
+.I VXset3dim
+\- creates a 3D image reference structure for a list
+.I VXembed3dim
+\- creates an 3D image copy with a border, 
+.I VXfloat3dim
+\- creates a float 3D image copy with an optional border,
+(see VXfloatimage(3) for details)
+.I VXufloat3dim
+\- copy a float 3D image to another 3D image structure,
+.I VXreset3dim
+\- free memory associated with an image reference structure,
+and
+.I VXbit3dim
+\- update a bitplane 3D image structure.
+
+.SH VXMAKE3DIM
+.PP
+.I VXmake3dim
+Initializes a 3D image structure. Its arguments are: the image structure
+to be initialized, the base data type e.g. VX_PBYTE, the 3D bounding
+box for the image, and the number of channels in the image.
+A list structure is allocated that contains the image information
+and a reference structure is allocated that will be used for convenient
+image data access. For example consider the following statement:
+.nf
+
+VisXimage_t foo;
+	VXmakeimage ( &foo, VX_PFLOAT, (float){0, 5, 0, 8, 0, 6}, 3);
+
+.fi
+A (5 x 8 x 6) pixel image is created in which each pixel consists of
+three floating point numbers. The
+bounding box is specified by an array of
+six floating point numbers (xmin, xmax, ymin, ymax, zmin, zmax) and
+the number of channels is specified by an integer. 
+A 6 element bounding box is created.
+
+
+.SH VXEMBED3DIM
+.I VXembed3dim
+creates a copy of an image in a second image structure.
+The additional arguments are positive integers that specify a border
+region of zeros for each of the six sides of the 3D image. This feature
+is very useful for local filtering operations since it permits
+simple access to elements outside the boundary of the original image.
+To make a direct copy of an image simply set the border values to zero.
+
+.SH VXBITIMAGE
+.I VXbit3dim
+Bitplane data (packed 8-bits/byte) is expanded into a unsigned int
+buffer (1-byte /pixel) for convenient manipulation (zero is false
+anything else is true). Before writing the image list it is necessary
+to repack the bits; this is achieved by call to VXbit3dim.
+If the image type is not bitplane (VX_PBIT) then VXbit3dim has no effect.
+
+.SH VXSETIMAGE
+.I VXset3dim
+scans a list  for a valid image pixel type and, if one is found, 
+scans the remainder of the list for any 
+additional images of the same type.
+A 3D reference structure is then generated
+to provide convenient access to this set of images. The  return value
+is one;
+if no pixel type is found VXmake3dim returns a zero and does nothing.
+The first argument to Vmake3dim is the structure to be created, the
+second argument is the list with image data and the third argument is
+the file structure for that list.
+
+.PP
+The base pixel types supported by the 3D image tools are as follows:
+.nf
+
+NAME, C-Type, EXTENSION, DESCRIPTION
+
+VX_PBYTE, unsigned char, .u, usual byte pixel format
+
+VX_PFLOAT, float, .f, 32-bit floating point
+
+VX_PDOUBLE, double, .d,	64-bit floating point
+
+VX_PBIT, unsigned char, .b, 1-bit (packed 8/byte)
+
+VX_PBYTE, char, .c, 8-bit signed integer
+
+VX_PSHORT, short, .s, 32-bit signed integer
+
+VX_PINT 	int      	.i		32-bit signed integer
+
+VX_PIDX 	unsigned char  	.?		8-bit color index
+.fi
+
+The EXTENSION field specifies the element of the VisXimage data
+structure which will point to the two
+dimensional array. 
+
+.SH VXRESE3DIM
+.I VXreset3dim
+deallocates the dynamic memory associated with the image structure that
+has been created by either VXmake3dim(3), VXset3dim, VXembed3dim, or
+VXfloat3dim(3).  VXreset3dim also deallocates the image list
+associated with the image structure unless either the image structure
+was created by VXset3dim or the image list has been moved somewhere
+else e.g.  by VXlnklst.  It is important to deallocate image structures
+with VXreset3dim before reusing them with a different image.
+
+
+.SH SEE ALSO
+VXfloatimage(3), VXrbufimage(3)
+
+
+.SH AUTHOR
+Program and Documentation Copyright Anthony P. Reeves

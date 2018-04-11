@@ -1,0 +1,81 @@
+.TH VXRBUFIMAGE 3  VisionX "A.P. Reeves" "VisionX USER\'S MANUAL"
+.SH NAME
+VXrbufimage, VXsbufimage \- VisionX multiframe image access 
+.SH SYNOPSIS
+.nf
+.B
+int VXrbufimage(iset, vfile, n);
+VisXimage_t *iset;
+VisXfile_t *vfile;
+int n;
+.B
+VisXimage_t * VXsbufimage(vfile, n);
+VisXfile_t *vfile;
+int n;
+.fi
+
+.SH DESCRIPTION
+Multiframe image files in VisionX consisted of a set of "frames"
+which are delimited by begin frame (VX_FRAME) and end frame (VX_EFRAME)
+elements
+and contain at least one image (see VXmakeimage(3)).
+An image consists of two consecutive data elements,
+a bounding box followed by a conforming pixel data element.
+.I
+VXsbufimage
+and
+.I
+VXrbufimage
+manage a set of
+.I n
+consecutive image frames in memory.
+.PP
+Spatiotemporal and other filtering operations often require that a number
+of image frames be accessible a the same time.
+.I
+VXsbufimage
+creates a buffer of n image structures (where n is a program specified constant)
+an reads the first (n-1) frames from the specified file. Note,
+each frame must contain at least one image. The image structure is initialized
+for the first image found in the frame (and the whole frame list is available
+as the .list element of the image structure).
+VXsbufimage returns a pointer to the image structure buffer that it creates.
+.PP
+.I
+VXrbufimage deletes the oldest frame in the image buffer, moves all remaining
+images to one later in the buffer and then reads the next image frame
+into the vacated first element of the image buffer. If VXrbufimage is
+unable to read another image frame it returns zero, otherwise it returns 1.
+
+The usage of VXsbufimage and VXrbufimage are best illustrated by an example.
+Consider that we wish to perform an operation on a sequence of images
+that is a function of n consecutive image frames. This may be realized
+by the following program structure:
+.nf
+VisXimage_t *iset;
+VisXfile_t *ifile, ofile;
+int n;
+         ifile = VXopen(<name>, 0);      /* open input file */
+         ofile = VXopen(<name1>, 1);     /* open output file */
+	 n = ...;
+         iset = VXsbufimage(vfile, n);
+	 while (VXrbufimage(iset, vfile, n)){
+	   /* process images iset[0] to iset[n-1] */
+	   /* place the resulting image in iset[n-1] */
+	   writeframe(ofile, iset[n-1].list);
+	 }
+.fi
+
+Note:
+iset[0] contains the most recently read image, iset[n-1] contains
+the oldest image. The above program does not write out the first
+n-1 frames; therefore, the resulting image sequence will have n-1
+fewer frames than the input file. The above is only one example
+of how to use these functions there are many other possibilities.
+The value of n must not be changed during the execution of the program.
+
+.SH SEE ALSO
+VXmakeimage(3), VXfloatimage(3)
+
+.SH AUTHOR
+Program and Documentation Copyright Anthony P. Reeves

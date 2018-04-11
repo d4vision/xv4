@@ -1,0 +1,65 @@
+System Requirements
+===================
+
+xv4Package can be built on the following platforms
+- a CentOS/RHEL system, or
+- a MacOS X system, or
+- a MinGW installation on a Windows system
+
+32-bit development environment for those platforms
+(gcc, gmake, glibc)
+
+
+Configuration
+=============
+
+A set of Makefiles is provided for the three platforms
+with the names of Makefile.<platform>.
+In the top directory copy your platform-specific
+    Makefile.<platform>
+as
+    Makefile
+
+To customize the installation edit the path settings
+at the beginning of the file. If you want to change
+any of those settings after the library has been compiled,
+an invocation of
+    make makefiles
+is needed to propagate the new settings (followed by a new
+compilation)
+
+
+
+Compiling and Installing
+========================
+Invoking
+    make
+at the top level will make all the make files and build
+the xv4Package library and executables
+To install type
+    make install
+
+
+
+Compiling New Programs
+======================
+
+New programs to be added to a local installation can
+be placed into the src/apps directory and appended
+to the COUT variable definition. When make and
+make install are invoked, they will be compiled
+together with the default xv4Package programs.
+
+After the installation of xv4Package new programs
+can be developed and linked with the xv4Package
+library inside a user's directory:
+- create a directory where the development
+  of the new programs will take place;
+- copy the Makefile file that is in the subdirectory
+  "devel" (at the top level of the installation path
+  or in your locally defined location) into your
+  new directory;
+- type
+      make <pgm-name>
+  to compile the file <pgm-name>.c
+

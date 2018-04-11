@@ -1,0 +1,343 @@
+<!-- Creator     : groff version 1.18.1.1 -->
+<!-- CreationDate: Fri Jan  4 16:43:40 2013 -->
+<html>
+<head>
+<meta name="generator" content="groff -Thtml, see www.gnu.org">
+<meta name="Content-Style" content="text/css">
+<title>VXMAKE3DIM</title>
+<link rel=stylesheet type=text/css href=xv4s.css></head>
+<body class="xv4bod" LINK="#0000ff" VLINK="#ff0000" ALINK="#ff0000" TEXT="#000000" ><table class="xv4man" width="700"><tr><td>
+
+<table bgcolor=#ffffcc width=100%><tr><td style=color:blue>xv4Package</td><td align=center><b>VXMAKE3DIM</b></td><td align=right style=color:blue>xv4Package</td></tr></table>
+<a name="NAME"></a>
+<b><font size="-1">NAME</font></b>
+<!-- INDENTATION -->
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td>
+<td width="89%">
+<p>VXmake3dim, VXset3dim, VXembed3dim, VXbit3dim,
+VXreset3dim &minus; VisionX 3D image access</p>
+</td>
+</table>
+<a name="SYNOPSIS"></a>
+<b><font size="-1">SYNOPSIS</font></b>
+<!-- INDENTATION -->
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td>
+<td width="89%">
+<pre><b>int VXmake3dim(image, type, bbx, chan);
+</b>VisX3dim_t *image;
+float bbx[4];
+int type, chan;
+<b>int VXset3dim(image, a, f);
+</b>VisX3dim_t *image;
+VisXelem_t *a;
+VisXfile_t *f;
+<b>int VXembed3dim(i, j ,x1,x2,y1,y2,z1,z2);
+</b>VisX3dim_t *i, *j;
+float x1,x2,y1,y2,z1,z2;
+<b>VXbit3dim(i);
+</b>VisX3dim_t *i;
+<b>int VXreset3dim(i);
+</b>VisX3dim_t *i;
+</pre>
+</td>
+</table>
+<a name="DESCRIPTION"></a>
+<b><font size="-1">DESCRIPTION</font></b>
+<!-- INDENTATION -->
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td>
+<td width="89%">
+<p>Three dimensional image data in VisionX is managed by a
+set of programming tools that record image array accessing
+information in a single structure (VisX3dim_t).</p>
+<!-- INDENTATION -->
+<p>These tools are suitable for the convenient manipulation
+of small 3D images only since the complete data structures
+are maintained in memory. For large 3D images and large
+temporal image sequences the two-dimensional tools augmented
+with image buffers should be used, see VXrbufimage(3).</p>
+<!-- INDENTATION -->
+<p>A 3D image is stored in an image file as a set of 2D
+images. An image in a data list consists of two consecutive
+data elements, a bounding box followed by a conforming pixel
+data element. The 3D image tools provide convenient
+structured access to a related 3D set of images under the
+constraints of an extracted 3D bounding box.</p>
+<!-- INDENTATION -->
+<p>The 3D image toolkit contains the following functions:
+<i>VXmake3dim</i> &minus; creates a 3D image structure,
+<i>VXset3dim</i> &minus; creates a 3D image reference
+structure for a list <i>VXembed3dim</i> &minus; creates an
+3D image copy with a border, <i>VXfloat3dim</i> &minus;
+creates a float 3D image copy with an optional border, (see
+VXfloatimage(3) for details) <i>VXufloat3dim</i> &minus;
+copy a float 3D image to another 3D image structure,
+<i>VXreset3dim</i> &minus; free memory associated with an
+image reference structure, and <i>VXbit3dim</i> &minus;
+update a bitplane 3D image structure.</p>
+</td>
+</table>
+<a name="VXMAKE3DIM"></a>
+<b><font size="-1">VXMAKE3DIM</font></b>
+<!-- INDENTATION -->
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td>
+<td width="89%">
+<p><i>VXmake3dim</i> Initializes a 3D image structure. Its
+arguments are: the image structure to be initialized, the
+base data type e.g. VX_PBYTE, the 3D bounding box for the
+image, and the number of channels in the image. A list
+structure is allocated that contains the image information
+and a reference structure is allocated that will be used for
+convenient image data access. For example consider the
+following statement:</p>
+<!-- INDENTATION -->
+<pre>VisXimage_t foo;
+</pre>
+</td>
+</table>
+<!-- TABS -->
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="3" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="17%"></td>
+<td width="7%">
+
+<p>VXmakeimage ( &amp;foo, VX_PFLOAT, (float){0, 5, 0, 8,
+0, 6}, 3);</p>
+</td>
+<td width="74%">
+</td>
+</table>
+<!-- INDENTATION -->
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td>
+<td width="89%">
+<p>A (5 x 8 x 6) pixel image is created in which each pixel
+consists of three floating point numbers. The bounding box
+is specified by an array of six floating point numbers
+(xmin, xmax, ymin, ymax, zmin, zmax) and the number of
+channels is specified by an integer. A 6 element bounding
+box is created.</p>
+</td>
+</table>
+<a name="VXEMBED3DIM"></a>
+<b><font size="-1">VXEMBED3DIM</font></b>
+<!-- INDENTATION -->
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td>
+<td width="89%">
+<p><i>VXembed3dim</i> creates a copy of an image in a second
+image structure. The additional arguments are positive
+integers that specify a border region of zeros for each of
+the six sides of the 3D image. This feature is very useful
+for local filtering operations since it permits simple
+access to elements outside the boundary of the original
+image. To make a direct copy of an image simply set the
+border values to zero.</p>
+</td>
+</table>
+<a name="VXBITIMAGE"></a>
+<b><font size="-1">VXBITIMAGE</font></b>
+<!-- INDENTATION -->
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td>
+<td width="89%">
+<p><i>VXbit3dim</i> Bitplane data (packed 8-bits/byte) is
+expanded into a unsigned int buffer (1-byte /pixel) for
+convenient manipulation (zero is false anything else is
+true). Before writing the image list it is necessary to
+repack the bits; this is achieved by call to VXbit3dim. If
+the image type is not bitplane (VX_PBIT) then VXbit3dim has
+no effect.</p>
+</td>
+</table>
+<a name="VXSETIMAGE"></a>
+<b><font size="-1">VXSETIMAGE</font></b>
+<!-- INDENTATION -->
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td>
+<td width="89%">
+<p><i>VXset3dim</i> scans a list for a valid image pixel
+type and, if one is found, scans the remainder of the list
+for any additional images of the same type. A 3D reference
+structure is then generated to provide convenient access to
+this set of images. The return value is one; if no pixel
+type is found VXmake3dim returns a zero and does nothing.
+The first argument to Vmake3dim is the structure to be
+created, the second argument is the list with image data and
+the third argument is the file structure for that list.</p>
+<!-- INDENTATION -->
+<p>The base pixel types supported by the 3D image tools are
+as follows:</p>
+<!-- INDENTATION -->
+<pre>NAME, C-Type, EXTENSION, DESCRIPTION
+
+VX_PBYTE, unsigned char, .u, usual byte pixel format
+
+VX_PFLOAT, float, .f, 32-bit floating point
+
+</pre>
+</td>
+</table>
+<!-- TABS -->
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="5" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td>
+<td width="7%">
+
+<p>VX_PDOUBLE, double, .d,</p>
+</td>
+<td width="29%"></td>
+<td width="7%">
+
+<p>64-bit floating point</p>
+</td>
+<td width="45%">
+</td>
+</table>
+<!-- INDENTATION -->
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td>
+<td width="89%">
+<p>VX_PBIT, unsigned char, .b, 1-bit (packed 8/byte)</p>
+<!-- INDENTATION -->
+<p>VX_PBYTE, char, .c, 8-bit signed integer</p>
+<!-- INDENTATION -->
+<p>VX_PSHORT, short, .s, 32-bit signed integer</p>
+</td>
+</table>
+<!-- TABS -->
+<table width="100%" border=0 rules="none" frame="void"
+       cols="11" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td>
+<td width="7%">
+
+<p>VX_PINT</p>
+</td>
+<td width="7%"></td>
+<td width="7%">
+
+<p>int</p>
+</td>
+<td width="7%"></td>
+<td width="7%">
+
+<p>.i</p>
+</td>
+<td width="7%">
+</td>
+<td width="7%">
+
+<p>32-bit signed integer</p>
+</td>
+<td width="7%"></td>
+<td width="7%"></td>
+<td width="23%">
+</td>
+<tr valign="top" align="left">
+<td width="10%"></td>
+<td width="7%">
+
+<p>VX_PIDX</p>
+</td>
+<td width="7%"></td>
+<td width="7%">
+
+<p>unsigned char</p>
+</td>
+<td width="7%"></td>
+<td width="7%"></td>
+<td width="7%"></td>
+<td width="7%">
+
+<p>.?</p>
+</td>
+<td width="7%">
+</td>
+<td width="7%">
+
+<p>8-bit color index</p>
+</td>
+<td width="23%">
+</td>
+</table>
+<!-- INDENTATION -->
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td>
+<td width="89%">
+<p>The EXTENSION field specifies the element of the
+VisXimage data structure which will point to the two
+dimensional array.</p>
+</td>
+</table>
+<a name="VXRESE3DIM"></a>
+<b><font size="-1">VXRESE3DIM</font></b>
+<!-- INDENTATION -->
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td>
+<td width="89%">
+<p><i>VXreset3dim</i> deallocates the dynamic memory
+associated with the image structure that has been created by
+either VXmake3dim(3), VXset3dim, VXembed3dim, or
+VXfloat3dim(3). VXreset3dim also deallocates the image list
+associated with the image structure unless either the image
+structure was created by VXset3dim or the image list has
+been moved somewhere else e.g. by VXlnklst. It is important
+to deallocate image structures with VXreset3dim before
+reusing them with a different image.</p>
+</td>
+</table>
+<a name="SEE ALSO"></a>
+<b><font size="-1">SEE ALSO</font></b>
+<!-- INDENTATION -->
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td>
+<td width="89%">
+<p>VXfloatimage(3), VXrbufimage(3)</p>
+</td>
+</table>
+<a name="AUTHOR"></a>
+<b><font size="-1">AUTHOR</font></b>
+<!-- INDENTATION -->
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td>
+<td width="89%">
+<p>Program and Documentation Copyright Anthony P. Reeves</p>
+</td>
+</table>
+</td></tr></table></body>
+</html>

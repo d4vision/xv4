@@ -1,0 +1,163 @@
+
+/*
+ *   Copyright 2014 Anthony P. Reeves
+ * 
+ *   This file is part of xv4Package.
+ * 
+ *   xv4Package is free software: you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation, either version 3 of the License, or
+ *   any later version.
+ *
+ *   xv4Package is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+ *
+ *   You should have received a copy of the GNU General Public License
+ *   along with xv4Package.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+.text,
+table.elist,
+table.ipatch
+ {  
+     font-family:  Helvetica, sans-serif; 
+     font-size: 14px; 
+     font-style: normal;
+     }
+
+div.heading {  
+     font-family:  Helvetica, sans-serif; 
+     font-size: 14px; 
+     font-style: normal;
+     color: #660000;
+     }
+
+div.nav {  font-family:  Helvetica, sans-serif;
+     font-size: 14px;
+     font-style: normal;
+     color: #000000;
+     font-weight: bold;
+     }
+
+A:hover {color: #ff0000}
+a.plain {text-decoration: none }
+
+
+
+
+div.key {  
+     font-family:  Helvetica, sans-serif; 
+     font-size: 17px; 
+     font-style: normal;
+     font-weight: bold;
+     color:  #006633;
+     }
+
+div.tag {  
+     font-family:  Helvetica, sans-serif; 
+     font-size: 14px; 
+     font-style: normal;
+     margin-left: 30pt;
+     margin-right: 30pt;
+     }
+
+div.text {  
+     font-family:  Helvetica, sans-serif; 
+     font-size: 14px; 
+     font-style: normal;
+     }
+
+div.title {  
+     font-family:  Helvetica, sans-serif; 
+     font-size: 15px; 
+     font-style: normal;
+     font-weight: bold;
+     color:  #003366;
+     }
+
+.noshow {
+     display: none;
+}
+table.elist {
+	border-width: 1px 1px 1px 1px;
+	border-spacing: 2px;
+	border-style: solid solid solid solid;
+	border-color: gray gray gray gray;
+	border-collapse: collapse;
+}
+table.elist th {
+	border-width: 1px 1px 1px 1px;
+	padding: 1px 1px 1px 1px;
+	border-style: inset inset inset inset;
+	border-color: black black black black;
+}
+table.elist td {
+	border-width: 1px 1px 1px 1px;
+	padding: 1px 4px 1px 4px;
+	border-style: inset inset inset inset;
+	border-color: black black black black;
+}
+table.odd {
+	margin: 2px;
+	padding: 2px;
+        border: solid #000000 1px;
+	}
+	
+table.red {
+        border: solid #a70f0f 2px;
+	background: #FFFFFF;
+        }
+table.black {
+        border: solid #000000 1px;
+	background: #FFFFFF;
+        }
+table.ipatch {
+        border: solid #000000 1px;
+	background: #F0F0FF;
+	width: 138;
+	height: 184;
+        }
+
+
+body.v4bod
+{padding:0px 0px 0px 4;margin:0;background:#f8f8f8}
+body.v4bod
+{  font-family:  Helvetica, sans-serif; 
+     font-size: 14px; 
+     font-style: normal;
+}
+table.v4tab
+{
+border-width:1px 1px 1px 1px;border-style:solid;border-color:#000000;
+ 	border-collapse: collapse; 
+width: 600;
+	padding: 1px 4px 1px 4px;
+}
+table.v4tab td
+{
+border-width:1px 1px 1px 1px;border-style:solid;border-color:#000000;
+	padding: 1px 4px 1px 4px;
+}
+table.v4tab tr
+{
+border-width:1px 1px 1px 1px;border-style:solid;border-color:#000000;
+}
+table.v4man
+{
+   width: 700;
+}
+table.v4man {  
+     font-family:  Helvetica, sans-serif; 
+     font-size: 14px; 
+     font-style: normal;
+}
+table.v4man td {
+    font-size: 14px;
+    }
+p {
+     font-size: 14px; 
+}
+

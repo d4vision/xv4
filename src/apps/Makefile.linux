@@ -1,0 +1,93 @@
+#
+#  apps Makefile for Linux (CentOS / RHEL)
+#
+#
+#
+#  Copyright 2014 Anthony P. Reeves
+#
+#  This file is part of xv4Package.
+#
+#  xv4Package is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 3 of the License, or
+#  any later version.
+#
+#  xv4Package is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+#  You should have received a copy of the GNU General Public License
+#  along with xv4Package.  If not, see <http://www.gnu.org/licenses/>.
+#
+#
+
+
+COUT 	=   v3conv.out v3tpl.out vgen.out vpix.out vrcrossb.out vttxt.out \
+	    v3df.out vcp.out vlmax.out vrcross.out vssum.out vvec2.out 
+
+OPSYS	= 
+MACH	= -Dlinux -m32
+CDEFS	= -DVLITTLE_ENDIAN
+FDEFS	= 
+SYSLIB	= 
+XROOT	= /usr/X11R6
+MAKE	= make
+CC	= gcc
+EXTRA	= 
+EXTLIB	=
+INSTALL = install
+
+
+#
+# BINARIES/LIBRARIES
+#
+
+SHELL	= /bin/sh
+INCLUDE	= -I../include
+CFLAGS  = ${OPTIM} ${OPSYS} ${MACH} ${CDEFS} ${INCLUDE} ${EXTRA}
+FFLAGS	= ${OPTIM} ${FDEFS}
+CLIBS	= ../lib/vxlib.a ${SYSLIB} ${EXTLIB} -lm
+
+
+.SUFFIXES:.out
+
+# Rules for c files
+.c.out : 
+	${CC} ${CFLAGS} $*.c -o $*.out ${CLIBS}
+
+.c.o :
+	${CC} -c ${CFLAGS} $*.c 
+
+.o.out :
+	@(if test -f $*.c; then \
+		echo "${CC} ${CFLAGS} $*.o -o $*.out ${CLIBS}";\
+		${CC} ${CFLAGS} $*.o -o $*.out ${CLIBS};\
+	else \
+		echo "I cannot find any c source for $*.o";\
+	fi;)
+
+
+all::    $(COUT)
+	@echo "Apps done."
+
+
+install:: ${COUT}
+	@(for i in ${COUT}; do\
+		echo "installing $$i";\
+		$(INSTALL) -sD $$i ${DESTBIN}/$${i%%.out};\
+		done)
+	@echo "Apps install done"
+
+
+clean::
+	rm -f *.o core ${COUT}
+	@echo "Apps clean done"
+
+
+step::
+	${MAKE} ${MFLAGS}
+	${MAKE} ${MFLAGS} install
+	${MAKE} ${MFLAGS} clean
+
+

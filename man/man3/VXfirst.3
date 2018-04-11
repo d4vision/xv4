@@ -1,0 +1,101 @@
+.TH VXFIRST 3  VisionX "A.P. Reeves" "VisionX USER\'S MANUAL"
+.SH NAME
+VXfirst, VXlast, VXfind, VXfindin, VXbfind
+\- VisionX  element search functions 
+.SH SYNOPSIS
+.nf
+.B
+VisXelem_t *VXfirst (lptr);
+VisXelem_t *lptr;
+.B
+VisXelem_t *VXlast (lptr);
+VisXelem_t *lptr;
+.B
+VisXelem_t *VXfind (lptr, vxtype);
+VisXelem_t *list;
+int vxtype;
+.B
+VisXelem_t *VXfindin (lptr, tlist);
+VisXelem_t *list;
+int tlist[];
+.B
+VisXelem_t *VXbfind (lptr, vxtype);
+VisXelem_t *list;
+int vxtype;
+.fi
+
+.SH DESCRIPTION
+VisionX represents information internally as a doubly linked list
+of data elements. Each element contains a type descriptor,
+forward and backward pointers to other elements, and data.
+The VisionX file i/o functions read and write these lists.
+
+The first element of a list
+is always a dummy element that is required for consistency.
+The element search functions
+provide a set of programming tools for locating specific
+list elements.
+
+The element search functions contains the following:
+.I VXfirst
+\- move to first element of a list
+.I VXlast
+\- move to last element of a list
+.I VXfind
+\- find an element with a given type
+.I VXfindin
+\- find an element with one of a set of types
+and
+.I VXbfind
+\- search backwards for an element with a given type.
+
+.SH VXFIRST
+.PP
+.I VXfirst
+is given an arbitrary pointer to a list element
+.I lptr,
+and returns a pointer to the first data element in the list
+(not the dummy element).
+
+.SH VXLAST
+.PP
+.I VXlast
+is given an arbitrary pointer to a list element
+.I lptr,
+and returns a pointer to the last data element in the list.
+If there are no elements in the list a pointer to the dummy element
+is returned.
+
+.SH VXFIND
+.PP
+.I VXfind
+searches a list in a forward direction for a data element of type 
+.I vxtype
+starting at the element specified by 
+.I lptr.
+If such an element is found VXfind returns a pointer to that element.
+Otherwise, VXfind returns a null element pointer (VXNIL).
+
+.SH VXFINDIN
+.PP
+.I VXfindin
+searches a list in a forward direction for a data element of one
+of the types specified by
+the zero terminated list of types specified by the argument
+.I tlist.
+If any element specified in  tlist is found, VXfindin returns a
+pointer to that element.
+Otherwise, VXfindin returns a null element pointer (VXNIL).
+
+.SH VXBFIND
+.PP
+.I VXbfind
+searches a list in a BACKWARDS direction for a data element of type 
+.I vxtype
+starting at the element specified by 
+.I lptr.
+If such an element is found VXbfind returns a pointer to that element.
+Otherwise, VXfind returns a null element pointer (VXNIL).
+
+.SH AUTHOR
+Program and Documentation Copyright Anthony P. Reeves

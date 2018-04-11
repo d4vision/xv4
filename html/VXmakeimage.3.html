@@ -1,0 +1,361 @@
+<!-- Creator     : groff version 1.18.1.1 -->
+<!-- CreationDate: Fri Jan  4 16:43:40 2013 -->
+<html>
+<head>
+<meta name="generator" content="groff -Thtml, see www.gnu.org">
+<meta name="Content-Style" content="text/css">
+<title>VXMAKEIMAGE</title>
+<link rel=stylesheet type=text/css href=xv4s.css></head>
+<body class="xv4bod" LINK="#0000ff" VLINK="#ff0000" ALINK="#ff0000" TEXT="#000000" ><table class="xv4man" width="700"><tr><td>
+
+<table bgcolor=#ffffcc width=100%><tr><td style=color:blue>xv4Package</td><td align=center><b>VXMAKEIMAGE</b></td><td align=right style=color:blue>xv4Package</td></tr></table>
+<a name="NAME"></a>
+<b><font size="-1">NAME</font></b>
+<!-- INDENTATION -->
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td>
+<td width="89%">
+<p>VXmakeimage, VXsetimage, VXembedimage, VXbitimage,
+VXidximage, VXresetimage &minus; VisionX image access</p>
+</td>
+</table>
+<a name="SYNOPSIS"></a>
+<b><font size="-1">SYNOPSIS</font></b>
+<!-- INDENTATION -->
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td>
+<td width="89%">
+<pre><b>int VXmakeimage(image, type, bbx, chan);
+</b>VisXimage_t *image;
+float bbx[4];
+int type, chan;
+<b>int VXsetimage(image, a, f);
+</b>VisXimage_t *image;
+VisXelem_t *a;
+VisXfile_t *f;
+<b>int VXembedimage(i, j ,x1,x2,y1,y2);
+</b>VisXimage_t *i, *j;
+float x1,x2,y1,y2;
+<b>VXbitimage(i);
+</b>VisXimage_t *i;
+<b>int VXresetimage(i);
+</b>VisXimage_t *i;
+</pre>
+</td>
+</table>
+<a name="DESCRIPTION"></a>
+<b><font size="-1">DESCRIPTION</font></b>
+<!-- INDENTATION -->
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td>
+<td width="89%">
+<p>Image data in VisionX is managed by a set of programming
+tools that record image array accessing information in a
+single structure (VisXimage_t). The image is considered as a
+two dimensional array. An image in a data list consists of
+two consecutive data elements, a bounding box followed by a
+conforming pixel data element. The image tools provide
+convenient structured access to the data element under the
+constraints of the bounding box.</p>
+<!-- INDENTATION -->
+<p>The image toolkit contains the following functions:
+<i>VXmakeimage</i> &minus; creates an image structure,
+<i>VXsetimage</i> &minus; creates an image reference
+structure for a list <i>VXembedimage</i> &minus; creates an
+image copy with a border, <i>VXfloatimage</i> &minus;
+creates a float image copy with an optional border,
+<i>VXresetimage</i> &minus; free memory associated with an
+image reference structure, <i>VXbitimage</i> &minus; update
+a bitplane image structure, <i>VXsbufimage</i> &minus; set
+up a buffer for n image frames, <i>VXrbufimage</i> &minus;
+read the next image frame into the buffer, and
+<i>VXidximage</i> &minus; sets the image index
+convention</p>
+</td>
+</table>
+<a name="VXMAKEIMAGE"></a>
+<b><font size="-1">VXMAKEIMAGE</font></b>
+<!-- INDENTATION -->
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td>
+<td width="89%">
+<p><i>VXmakeimage</i> Initializes an image structure. Its
+arguments are: the image structure to be initialized, the
+base data type e.g. VX_PBYTE, the bounding box for the
+image, and the number of channels in the image. A list
+structure is allocated that contains the image information
+and a reference structure is allocated that will be used for
+convenient image data access. For example consider the
+following statement:</p>
+<!-- INDENTATION -->
+<pre>VisXimage_t foo;
+</pre>
+</td>
+</table>
+<!-- TABS -->
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="3" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="17%"></td>
+<td width="7%">
+
+<p>VXmakeimage ( &amp;foo, VX_PFLOAT, (float){0, 5, 0, 8},
+3);</p>
+</td>
+<td width="74%">
+</td>
+</table>
+<!-- INDENTATION -->
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td>
+<td width="89%">
+<p>A (5 x 8) pixel image is created in which each pixel
+consists of three floating point numbers. The bounding box
+is specified by an array of four floating point numbers
+(xmin, xmax, ymin, ymax) and the number of channels is
+specified by an integer. Only a 4 element bounding box is
+created; this may be extended to a six element bounding box
+by a call to VXpzset(foo.list, n).</p>
+</td>
+</table>
+<a name="VXEMBEDIMAGE"></a>
+<b><font size="-1">VXEMBEDIMAGE</font></b>
+<!-- INDENTATION -->
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td>
+<td width="89%">
+<p><i>VXembedimage</i> creates a copy of an image in a
+second image structure. The additional arguments are
+positive integers that specify a border region of zeros for
+each of the four sides of the image. This feature is very
+useful for local filtering operations since it permits
+simple access to elements outside the boundary of the
+original image. To make a direct copy of an image simply set
+the border values to zero.</p>
+</td>
+</table>
+<a name="VXBITIMAGE"></a>
+<b><font size="-1">VXBITIMAGE</font></b>
+<!-- INDENTATION -->
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td>
+<td width="89%">
+<p><i>VXbitimage</i> Bitplane data (packed 8-bits/byte) is
+expanded into a unsigned int buffer (1-byte /pixel) for
+convenient manipulation (zero is false anything else is
+true). Before writing the image list it is necessary to
+repack the bits; this is achieved by call to VXbitimage. If
+the image type is not bitplane (VX_PBIT) then VXbitimage has
+no effect.</p>
+</td>
+</table>
+<a name="VXSETIMAGE"></a>
+<b><font size="-1">VXSETIMAGE</font></b>
+<!-- INDENTATION -->
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td>
+<td width="89%">
+<p><i>VXsetimage</i> scans a list for a valid image pixel
+type and if one is found it constructs a reference structure
+to provide convenient access to it and returns the value
+one. If no pixel type is found VXmakeimage returns a zero
+and does nothing. The first argument to Vmakeimage is the
+structure to be created, the second argument is the list
+with image data and the third argument is the file structure
+for that list. The list is scanned and information is
+obtained using the following algorithm.</p>
+<!-- INDENTATION -->
+<pre>   1. check to see it the  list item is at an image data type.
+
+  2. If not search FORWARD from the given position to
+      locate a numeric image data type (not color index images ).
+
+  3. If no image is found by the end of the list then return zero
+
+  4. If an image is found the critical parameters are obtained
+      (bounding box and number of channels)
+
+  5. The BBX should precede the pixel data element
+
+  6. if no BBX found then return zero.
+
+  7. Computes the number of channels in the image
+
+  8. Compute the reference structure.
+
+  9. If all OK return 1. imitem points to data elem.
+                          flist points to entry pt.
+                          glist points to any global list
+</pre>
+<!-- INDENTATION -->
+<p>The base pixel types supported by the image tools are as
+follows:</p>
+<!-- INDENTATION -->
+<pre>NAME, C-Type, EXTENSION, DESCRIPTION
+
+VX_PBYTE, unsigned char, .u, usual byte pixel format
+
+VX_PFLOAT, float, .f, 32-bit floating point
+
+</pre>
+</td>
+</table>
+<!-- TABS -->
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="5" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td>
+<td width="7%">
+
+<p>VX_PDOUBLE, double, .d,</p>
+</td>
+<td width="29%"></td>
+<td width="7%">
+
+<p>64-bit floating point</p>
+</td>
+<td width="45%">
+</td>
+</table>
+<!-- INDENTATION -->
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td>
+<td width="89%">
+<p>VX_PBIT, unsigned char, .b, 1-bit (packed 8/byte)</p>
+<!-- INDENTATION -->
+<p>VX_PBYTE, char, .c, 8-bit signed integer</p>
+<!-- INDENTATION -->
+<p>VX_PSHORT, short, .s, 32-bit signed integer</p>
+</td>
+</table>
+<!-- TABS -->
+<table width="100%" border=0 rules="none" frame="void"
+       cols="11" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td>
+<td width="7%">
+
+<p>VX_PINT</p>
+</td>
+<td width="7%"></td>
+<td width="7%">
+
+<p>int</p>
+</td>
+<td width="7%"></td>
+<td width="7%">
+
+<p>.i</p>
+</td>
+<td width="7%">
+</td>
+<td width="7%">
+
+<p>32-bit signed integer</p>
+</td>
+<td width="7%"></td>
+<td width="7%"></td>
+<td width="23%">
+</td>
+<tr valign="top" align="left">
+<td width="10%"></td>
+<td width="7%">
+
+<p>VX_PIDX</p>
+</td>
+<td width="7%"></td>
+<td width="7%">
+
+<p>unsigned char</p>
+</td>
+<td width="7%"></td>
+<td width="7%"></td>
+<td width="7%"></td>
+<td width="7%">
+
+<p>.?</p>
+</td>
+<td width="7%">
+</td>
+<td width="7%">
+
+<p>8-bit color index</p>
+</td>
+<td width="23%">
+</td>
+</table>
+<!-- INDENTATION -->
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td>
+<td width="89%">
+<p>The EXTENSION field specifies the element of the
+VisXimage data structure which will point to the two
+dimensional array.</p>
+</td>
+</table>
+<a name="VXRESETIMAGE"></a>
+<b><font size="-1">VXRESETIMAGE</font></b>
+<!-- INDENTATION -->
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td>
+<td width="89%">
+<p><i>VXresetimage</i> deallocates the dynamic memory
+associated with the image structure that has been created by
+either VXmakeimage(3), VXsetimage, VXembedimage, or
+VXfloatimage(3). VXresetimage also deallocates the image
+list associated with the image structure unless either the
+image structure was created by VXsetimage or the image list
+has been moved somewhere else e.g. by VXlknlst. It is
+important to deallocate image structures with VXresetimage
+before reusing them with a different image.</p>
+</td>
+</table>
+<a name="SEE ALSO"></a>
+<b><font size="-1">SEE ALSO</font></b>
+<!-- INDENTATION -->
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td>
+<td width="89%">
+<p>VXfloatimage(3), VXrbufimage(3)</p>
+</td>
+</table>
+<a name="AUTHOR"></a>
+<b><font size="-1">AUTHOR</font></b>
+<!-- INDENTATION -->
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td>
+<td width="89%">
+<p>Program and Documentation Copyright Anthony P. Reeves</p>
+</td>
+</table>
+</td></tr></table></body>
+</html>

@@ -1,0 +1,113 @@
+<!-- Creator     : groff version 1.18.1.1 -->
+<!-- CreationDate: Fri Jan  4 16:43:41 2013 -->
+<html>
+<head>
+<meta name="generator" content="groff -Thtml, see www.gnu.org">
+<meta name="Content-Style" content="text/css">
+<title>VXOPEN</title>
+<link rel=stylesheet type=text/css href=xv4s.css></head>
+<body class="xv4bod" LINK="#0000ff" VLINK="#ff0000" ALINK="#ff0000" TEXT="#000000" ><table class="xv4man" width="700"><tr><td>
+
+<table bgcolor=#ffffcc width=100%><tr><td style=color:blue>xv4Package</td><td align=center><b>VXOPEN</b></td><td align=right style=color:blue>xv4Package</td></tr></table>
+<a name="NAME"></a>
+<b><font size="-1">NAME</font></b>
+<!-- INDENTATION -->
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td>
+<td width="89%">
+<p>VXread, VXreadframe, VXwrite, VXwriteframe, VXfupdate
+&minus; VisionX File manipulation functions</p>
+</td>
+</table>
+<a name="SYNOPSIS"></a>
+<b><font size="-1">SYNOPSIS</font></b>
+<!-- INDENTATION -->
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td>
+<td width="89%">
+<pre><b>VisXelem_t *VXread(vfile)
+</b>VisXfile_t *vfile;
+<b>VisXelem_t *VXreadframe(vfile)
+</b>VisXfile_t *vfile;
+<b>void VXwrite (vfile, vlist)
+</b>VisXfile_t * vfile;
+VisXelem_t * vlist;
+<b>void VXwriteframe (vfile, vlist)
+</b>VisXfile_t * vfile;
+VisXelem_t * vlist;
+<b>void VXfupdate(ofile, ifile)
+</b>VisXfile_t * ifile;
+VisXfile_t * ofile;
+
+</pre>
+</td>
+</table>
+<a name="DESCRIPTION"></a>
+<b><font size="-1">DESCRIPTION</font></b>
+<!-- INDENTATION -->
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td>
+<td width="89%">
+<p><i>VXread</i> reads the data from a VisionX file that has
+been opened with with VXopen and creates an initialized
+doubly linked list of the read data elements. VXread returns
+a pointer to this list. If no data is found an empty
+initialized list is returned</p>
+<!-- INDENTATION -->
+<p><i>VXreadframe</i> is similar to VXread except that if
+there are frame markers in the file (VX_FRAME and VX_EFRAME)
+only the part of the file that starts with VX_FRAME the
+start-frame marker and ends with the end-frame marker
+VX_EFRAME will be read. Subsequent calls to VXreadframe will
+read subsequent frames. If no frame is found (i.e., at the
+end of the file) then a null pointer is returned.</p>
+<!-- INDENTATION -->
+<p><i>VXwrite</i> writes a VisionX data list to a file
+opened for writing with VXopen.</p>
+<!-- INDENTATION -->
+<p><i>VXwriteframe</i> writes a VisionX data list to a file
+opened for writing with VXopen and is suitable for writing
+multiframe images. It does not add the frame markers; this
+is responsibility of the programmer preparing the data
+list.</p>
+<!-- INDENTATION -->
+<p><i>VXfupdate</i> updates the global variable list
+associated with the output file <i>ofile</i> with any new
+information that has been read in from the input file
+<i>ifile.</i> In general, to guarantee correct maintenance
+of file information this function should be called to update
+output files after any call to VXreadframe. See any of the
+frame i/o template programs for examples of its usage.</p>
+</td>
+</table>
+<a name="SEE ALSO"></a>
+<b><font size="-1">SEE ALSO</font></b>
+<!-- INDENTATION -->
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td>
+<td width="89%">
+<p>VXopen(3)</p>
+</td>
+</table>
+<a name="AUTHOR"></a>
+<b><font size="-1">AUTHOR</font></b>
+<!-- INDENTATION -->
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td>
+<td width="89%">
+<p>Program and Documentation Copyright Anthony P. Reeves</p>
+</td>
+</table>
+</td></tr></table></body>
+</html>

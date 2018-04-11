@@ -1,0 +1,76 @@
+#!/bin/sh
+# this updates VisionX files when a new "type" is added to the
+# system.  Types are defined in the file VisXtypes.
+# the files created by this script are VisXtype.h VisXn.h and
+# types.tex
+#
+rm -rf VisXn.h VisXtype.h types.tex types.html
+#
+#  make VisXn.h
+#
+cat > VisXn.h << 'eof'
+/*
+ * VisXn.h  VisX element names
+ */
+
+typedef struct {
+int val;
+char *name;
+char *pname;
+} VisXename_t;
+
+VisXename_t VisXename[] =
+{
+eof
+sed -e '
+	/^#/d
+	/^LBegin/d
+	s/LEnd/{0, 0, 0}};/
+	s/\(.*\);\ *\(.*\); \(.*\)/  {\2, "\1", "\3"},/
+	'  < VisXtypes >> VisXn.h
+#
+#  make VisXtype.h
+#
+cat > VisXtype.h << 'eof'
+/* 
+ *    VisXtype.h    VisX List Types
+ */
+
+eof
+sed -e '
+	/^#/d
+	/^LBegin/d
+	/^LEnd/d
+	s/\(.*\);\ *\(.*\);\(.*\)/#define \3	 \2 \/* \1 *\//
+	'  < VisXtypes >> VisXtype.h
+#
+#  make types.tex
+#
+sed -e '
+	s/^# //
+	s/^#//
+	s/^LBegin/\\footnotesize\{\\begin{verbatim}/
+	s/^LEnd/\\end{verbatim}}/
+	s/\(.*\);\(.*\);\(.*\)/\1 \2 \3/
+	'  < VisXtypes >> types.tex
+#
+#  make types.html
+#
+cat > types.html << 'eof'
+<HEADER>
+<TITLE>VisionX V4 Element Types </TITLE>
+</HEADER>
+<BODY BGCOLOR="#ffffff" LINK="#0000ff" VLINK="#ff0000" ALINK="#ff0000" TEXT="#000000" >
+<h1> 
+<img align=left src="visx.gif">
+VisionX V4 Element Types </h1><p>
+<hr>
+eof
+#
+sed -e '
+	s/^# //
+	s/^#//
+	s/^LBegin/<pre>/
+	s.^LEnd.</pre>.
+	s/\(.*\);\(.*\);\(.*\)/\1 \2 \3/
+	'  < VisXtypes >> types.html

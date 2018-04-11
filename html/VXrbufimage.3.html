@@ -1,0 +1,185 @@
+<!-- Creator     : groff version 1.18.1.1 -->
+<!-- CreationDate: Fri Jan  4 16:43:41 2013 -->
+<html>
+<head>
+<meta name="generator" content="groff -Thtml, see www.gnu.org">
+<meta name="Content-Style" content="text/css">
+<title>VXRBUFIMAGE</title>
+<link rel=stylesheet type=text/css href=xv4s.css></head>
+<body class="xv4bod" LINK="#0000ff" VLINK="#ff0000" ALINK="#ff0000" TEXT="#000000" ><table class="xv4man" width="700"><tr><td>
+
+<table bgcolor=#ffffcc width=100%><tr><td style=color:blue>xv4Package</td><td align=center><b>VXRBUFIMAGE</b></td><td align=right style=color:blue>xv4Package</td></tr></table>
+<a name="NAME"></a>
+<b><font size="-1">NAME</font></b>
+<!-- INDENTATION -->
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td>
+<td width="89%">
+<p>VXrbufimage, VXsbufimage &minus; VisionX multiframe image
+access</p>
+</td>
+</table>
+<a name="SYNOPSIS"></a>
+<b><font size="-1">SYNOPSIS</font></b>
+<!-- INDENTATION -->
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td>
+<td width="89%">
+<pre><b>int VXrbufimage(iset, vfile, n);
+</b>VisXimage_t *iset;
+VisXfile_t *vfile;
+int n;
+<b>VisXimage_t * VXsbufimage(vfile, n);
+</b>VisXfile_t *vfile;
+int n;
+</pre>
+</td>
+</table>
+<a name="DESCRIPTION"></a>
+<b><font size="-1">DESCRIPTION</font></b>
+<!-- INDENTATION -->
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td>
+<td width="89%">
+<p>Multiframe image files in VisionX consisted of a set of
+&quot;frames&quot; which are delimited by begin frame
+(VX_FRAME) and end frame (VX_EFRAME) elements and contain at
+least one image (see VXmakeimage(3)). An image consists of
+two consecutive data elements, a bounding box followed by a
+conforming pixel data element. <i>VXsbufimage</i> and
+<i>VXrbufimage</i> manage a set of <i>n</i> consecutive
+image frames in memory.</p>
+<!-- INDENTATION -->
+<p>Spatiotemporal and other filtering operations often
+require that a number of image frames be accessible a the
+same time. <i>VXsbufimage</i> creates a buffer of n image
+structures (where n is a program specified constant) an
+reads the first (n-1) frames from the specified file. Note,
+each frame must contain at least one image. The image
+structure is initialized for the first image found in the
+frame (and the whole frame list is available as the .list
+element of the image structure). VXsbufimage returns a
+pointer to the image structure buffer that it creates.</p>
+<!-- INDENTATION -->
+<p><i>VXrbufimage deletes the oldest frame in the image
+buffer, moves all remaining</i> images to one later in the
+buffer and then reads the next image frame into the vacated
+first element of the image buffer. If VXrbufimage is unable
+to read another image frame it returns zero, otherwise it
+returns 1.</p>
+<!-- INDENTATION -->
+<p>The usage of VXsbufimage and VXrbufimage are best
+illustrated by an example. Consider that we wish to perform
+an operation on a sequence of images that is a function of n
+consecutive image frames. This may be realized by the
+following program structure:</p>
+<!-- INDENTATION -->
+<pre>VisXimage_t *iset;
+VisXfile_t *ifile, ofile;
+int n;
+         ifile = VXopen(&lt;name&gt;, 0);      /* open input file */
+         ofile = VXopen(&lt;name1&gt;, 1);     /* open output file */
+</pre>
+</td>
+</table>
+<!-- TABS -->
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="3" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="17%"></td>
+<td width="7%">
+
+<p>n = ...;</p>
+</td>
+<td width="74%">
+</td>
+</table>
+<!-- INDENTATION -->
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td>
+<td width="89%">
+<p>iset = VXsbufimage(vfile, n);</p></td>
+</table>
+<!-- TABS -->
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="17%"></td>
+<td width="82%">
+
+<p>while (VXrbufimage(iset, vfile, n)){</p>
+</td>
+<tr valign="top" align="left">
+<td width="17%"></td>
+<td width="82%">
+
+<p>/* process images iset[0] to iset[n-1] */</p>
+</td>
+<tr valign="top" align="left">
+<td width="17%"></td>
+<td width="82%">
+
+<p>/* place the resulting image in iset[n-1] */</p>
+</td>
+<tr valign="top" align="left">
+<td width="17%"></td>
+<td width="82%">
+
+<p>writeframe(ofile, iset[n-1].list);</p>
+</td>
+<tr valign="top" align="left">
+<td width="17%"></td>
+<td width="82%">
+
+<p>}</p>
+</td>
+</table>
+<!-- INDENTATION -->
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td>
+<td width="89%">
+<p>Note: iset[0] contains the most recently read image,
+iset[n-1] contains the oldest image. The above program does
+not write out the first n-1 frames; therefore, the resulting
+image sequence will have n-1 fewer frames than the input
+file. The above is only one example of how to use these
+functions there are many other possibilities. The value of n
+must not be changed during the execution of the program.</p>
+</td>
+</table>
+<a name="SEE ALSO"></a>
+<b><font size="-1">SEE ALSO</font></b>
+<!-- INDENTATION -->
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td>
+<td width="89%">
+<p>VXmakeimage(3), VXfloatimage(3)</p>
+</td>
+</table>
+<a name="AUTHOR"></a>
+<b><font size="-1">AUTHOR</font></b>
+<!-- INDENTATION -->
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td>
+<td width="89%">
+<p>Program and Documentation Copyright Anthony P. Reeves</p>
+</td>
+</table>
+</td></tr></table></body>
+</html>

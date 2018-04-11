@@ -1,0 +1,70 @@
+.TH VXOPEN 3  VisionX "A.P. Reeves" "VisionX USER\'S MANUAL"
+.SH NAME
+VXread, VXreadframe, VXwrite, VXwriteframe, VXfupdate  \- VisionX  File manipulation functions 
+.SH SYNOPSIS
+.nf
+.B
+VisXelem_t *VXread(vfile)
+VisXfile_t *vfile;
+.B
+VisXelem_t *VXreadframe(vfile)
+VisXfile_t *vfile;
+.B
+void VXwrite (vfile, vlist)
+VisXfile_t * vfile;
+VisXelem_t * vlist;
+.B
+void VXwriteframe (vfile, vlist)
+VisXfile_t * vfile;
+VisXelem_t * vlist;
+.B
+void VXfupdate(ofile, ifile)
+VisXfile_t * ifile;
+VisXfile_t * ofile;
+
+
+.SH DESCRIPTION
+.I 
+VXread
+reads the data from a VisionX file that has been opened with
+with VXopen and creates an initialized  doubly linked list of the read
+data elements. VXread returns a pointer to this list.
+If no data is found an empty initialized list is returned
+.PP
+.I
+VXreadframe
+is similar to VXread except that if there are frame markers
+in the file (VX_FRAME and VX_EFRAME) only the part of the
+file that starts with VX_FRAME the start-frame marker and
+ends with the end-frame marker VX_EFRAME will be read.
+Subsequent calls to VXreadframe will  read subsequent frames.
+If no frame is found (i.e., at the end of the file) then 
+a null pointer is returned.
+.PP
+.I 
+VXwrite
+writes a VisionX data list to a file opened for writing with VXopen.
+.PP
+.I 
+VXwriteframe
+writes a VisionX data list to a file opened for writing with VXopen
+and is suitable for writing multiframe images. It does not add
+the frame markers; this is responsibility of the programmer preparing
+the data list.
+.PP
+.I
+VXfupdate
+updates the global variable list associated with the output file
+.I ofile
+with any new information that has been read in from the input
+file
+.I ifile. 
+In general, to guarantee correct maintenance of file information
+this function should be called to update output files
+after any call to VXreadframe. See any of the frame i/o template
+programs for examples of its usage.
+.SH SEE ALSO
+VXopen(3)
+
+.SH AUTHOR
+Program and Documentation Copyright Anthony P. Reeves

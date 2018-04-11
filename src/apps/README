@@ -1,0 +1,41 @@
+The application porgrams in this release are simple examples using different
+library features that serve as initial templates for new programs.
+
+
+vcp:      Example: Demo of use of frame and whole file i/o
+
+vpix:     Example: Pixel operations 
+          Features: multiple pixel types (macros), multiple frames
+          Limits: only point (pixel) operations
+
+vssum:    Example: operations on an image sequence.
+          Features: manage a moving window of several image frames.
+	  Features: temporal image sequence tools
+
+vrcrossb: Example: spatial filter basic version of vrcross 
+	  Feature: converts all pixel types to float for computation
+
+vrcross:  Example: spatial filter vrcrossb just handles
+	  Features: handles multiple pixel types using macros
+	  Recommend: develop in vrcross style, update to vrcross
+
+v3conv:   Example: spatial convoltion
+	  Features: 3D image padding tools
+	  Limits:   single kernel and byte or float images
+
+vgen:     Example:  program to create a synthetic image
+          Features: create image without an input image
+
+vlmax:    Example:  Every image template 
+	  Features: simple spatial filter, frame by frame  I/O 
+	  Limits:   only byte pixels
+
+vvec2:    Example: program that manipulates 2D vectors
+
+vttxt:    Example: program to create a text file (with header)
+
+v3df:     Example: Minimal program to manipulate 3D image structures
+
+v3tpl:    Example: 3D-image manipulation
+          Features: read 3D image (int) and 3D mask image (byte)
+	  Features: 3D image tools

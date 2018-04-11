@@ -1,0 +1,69 @@
+.TH VXFLOATIMAGE 3  VisionX "A.P. Reeves" "VisionX USER\'S MANUAL"
+.SH NAME
+VXfloatimage, VXufloatimage, VXfloat3dim, VXufloat3dim \- VisionX float image conversion 
+.SH SYNOPSIS
+.nf
+.B
+int VXfloatimage(fm, im, x1,x2,y1,y2);
+VisXimage_t *fm, *im;
+float x1,x2,y1,y2;
+.B
+void VXufloatimage(im, fm);
+VisXimage_t *im, *fm;
+.B
+int VXfloat3dim(i, j ,x1,x2,y1,y2,z1,z2);
+VisX3dim_t *i, *j;
+float x1,x2,y1,y2,z1,z2;
+.B
+int VXufloat3dim(i, j);
+VisX3dim_t *i, *j;
+
+.fi
+
+.SH DESCRIPTION
+.I
+VXfloatimage
+creates a copy of a VisionX image structure with the data converted
+to float data type and 
+.I  VXufloatimage
+performs the inverse function of copying the image data into
+an existing image structure.
+Note, VXfloatimage creates a new image structure while VXufloatimage
+copies into an existing image structure.
+
+The additional arguments to VXfloatimage are positive integers
+that specify a border
+region of zeros for each of the four sides of the image (in a similar
+manner to VXembedimage).
+This feature
+is very useful for local filtering operations since it permits
+simple access to elements outside the boudary of the original image.
+To make a direct copy of an image simply set the border values to zero.
+
+This pair of functions are very useful for specifying a very simple form of
+polymorhism. The input data can be convereted to float format
+then after processing the result can easily be copied back into
+the original image structure with VXufloatimage. For example,
+consider the following program structure:
+.nf
+   VXsetimage(&a,...);
+   VXfloatimage(&f,&a,...);
+   /* process the float image f */
+   VXufloatimage(&a,&f);
+   VXresetimage(&f);
+   VXresetimage(&a);
+
+.fi
+.I
+VXfloat3dim,
+and
+.I
+VXufloat3dim,
+provide similar functions as VXfloatimage and VXufloatimage except for
+3D image structures.
+
+.SH SEE ALSO
+VXmakeimage(3), VXrbufimage(3)
+
+.SH AUTHOR
+Program and Documentation Copyright Anthony P. Reeves

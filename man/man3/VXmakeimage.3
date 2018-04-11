@@ -1,0 +1,179 @@
+.TH VXMAKEIMAGE 3  VisionX "A.P. Reeves" "VisionX USER\'S MANUAL"
+.SH NAME
+VXmakeimage, VXsetimage, VXembedimage, VXbitimage, VXidximage, VXresetimage \- VisionX  image access 
+.SH SYNOPSIS
+.nf
+.B
+int VXmakeimage(image, type, bbx, chan);
+VisXimage_t *image;
+float bbx[4];
+int type, chan;
+.B
+int VXsetimage(image, a, f);
+VisXimage_t *image;
+VisXelem_t *a;
+VisXfile_t *f;
+.B
+int VXembedimage(i, j ,x1,x2,y1,y2);
+VisXimage_t *i, *j;
+float x1,x2,y1,y2;
+.B
+VXbitimage(i);
+VisXimage_t *i;
+.B
+int VXresetimage(i);
+VisXimage_t *i;
+.fi
+
+.SH DESCRIPTION
+Image data in VisionX is managed by a set of programming tools that
+record image array accessing information in a single structure (VisXimage_t).
+The image is considered as a two dimensional array.
+An image in a data list consists of two consecutive data elements,
+a bounding box followed by a conforming pixel data element.
+The image tools provide convenient structured access to the data element
+under the constraints of the bounding box.
+.PP
+The image toolkit contains the following functions:
+.I VXmakeimage
+\- creates an image structure,
+.I VXsetimage
+\- creates an image reference structure for a list
+.I VXembedimage
+\- creates an image copy with a border, 
+.I VXfloatimage
+\- creates a float image copy with an optional border,
+.I VXresetimage
+\- free memory associated with an image reference structure,
+.I VXbitimage
+\- update a bitplane image structure,
+.I VXsbufimage
+\- set up a buffer for n image frames,
+.I VXrbufimage
+\- read the next image frame into the buffer,
+and
+.I VXidximage
+\- sets the image index convention
+
+.SH VXMAKEIMAGE
+.PP
+.I VXmakeimage
+Initializes an image structure. Its arguments are: the image structure
+to be initialized, the base data type e.g. VX_PBYTE, the bounding
+box for the image, and the number of channels in the image.
+A list structure is allocated that contains the image information
+and a reference structure is allocated that will be used for convenient
+image data access. For example consider the following statement:
+.nf
+
+VisXimage_t foo;
+	VXmakeimage ( &foo, VX_PFLOAT, (float){0, 5, 0, 8}, 3);
+
+.fi
+A (5 x 8) pixel image is created in which each pixel consists of
+three floating point numbers. The
+bounding box is specified by an array of
+four floating point numbers (xmin, xmax, ymin, ymax) and
+the number of channels is specified by an integer. 
+Only a 4 element bounding box is created; this may be extended to
+a six element bounding box by a call to VXpzset(foo.list, n).
+
+
+.SH VXEMBEDIMAGE
+.I VXembedimage
+creates a copy of an image in a second image structure.
+The additional arguments are positive integers that specify a border
+region of zeros for each of the four sides of the image. This feature
+is very useful for local filtering operations since it permits
+simple access to elements outside the boundary of the original image.
+To make a direct copy of an image simply set the border values to zero.
+
+.SH VXBITIMAGE
+.I VXbitimage
+Bitplane data (packed 8-bits/byte) is expanded into a unsigned int
+buffer (1-byte /pixel) for convenient manipulation (zero is false
+anything else is true). Before writing the image list it is necessary
+to repack the bits; this is achieved by call to VXbitimage.
+If the image type is not bitplane (VX_PBIT) then VXbitimage has no effect.
+
+.SH VXSETIMAGE
+.I VXsetimage
+scans a list  for a valid image pixel type and if one is found it constructs
+a reference structure to provide convenient access to it and returns the
+value one.
+If no pixel type is found VXmakeimage returns a zero and does nothing.
+The first argument to Vmakeimage is the structure to be created, the
+second argument is the list with image data and the third argument is
+the file structure for that list.
+The list is scanned and information is obtained using the following
+algorithm.
+
+.nf
+
+   1. check to see it the  list item is at an image data type.
+
+   2. If not search FORWARD from the given position to
+      locate a numeric image data type (not color index images ).
+
+   3. If no image is found by the end of the list then return zero
+
+   4. If an image is found the critical parameters are obtained
+      (bounding box and number of channels)
+
+   5. The BBX should precede the pixel data element
+
+   6. if no BBX found then return zero.
+
+   7. Computes the number of channels in the image
+
+   8. Compute the reference structure.
+
+   9. If all OK return 1. imitem points to data elem.
+                          flist points to entry pt.
+                          glist points to any global list
+.fi
+
+.PP
+The base pixel types supported by the image tools are as follows:
+.nf
+
+NAME, C-Type, EXTENSION, DESCRIPTION
+
+VX_PBYTE, unsigned char, .u, usual byte pixel format
+
+VX_PFLOAT, float, .f, 32-bit floating point
+
+VX_PDOUBLE, double, .d,	64-bit floating point
+
+VX_PBIT, unsigned char, .b, 1-bit (packed 8/byte)
+
+VX_PBYTE, char, .c, 8-bit signed integer
+
+VX_PSHORT, short, .s, 32-bit signed integer
+
+VX_PINT 	int      	.i		32-bit signed integer
+
+VX_PIDX 	unsigned char  	.?		8-bit color index
+.fi
+
+The EXTENSION field specifies the element of the VisXimage data
+structure which will point to the two
+dimensional array. 
+
+.SH VXRESETIMAGE
+.I VXresetimage
+deallocates the dynamic memory associated with the image structure that
+has been created by either VXmakeimage(3), VXsetimage, VXembedimage, or
+VXfloatimage(3).  VXresetimage also deallocates the image list
+associated with the image structure unless either the image structure
+was created by VXsetimage or the image list has been moved somewhere
+else e.g.  by VXlknlst.  It is important to deallocate image structures
+with VXresetimage before reusing them with a different image.
+
+
+.SH SEE ALSO
+VXfloatimage(3), VXrbufimage(3)
+
+
+.SH AUTHOR
+Program and Documentation Copyright Anthony P. Reeves

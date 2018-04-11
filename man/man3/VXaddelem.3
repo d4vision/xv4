@@ -1,0 +1,101 @@
+.TH VXADDELEM 3  VisionX "A.P. Reeves" "VisionX USER\'S MANUAL"
+.SH NAME
+VXaddelem, VXlnkelem, VXdelelem \- VisionX  element manipulation functions 
+.SH SYNOPSIS
+.nf
+.B
+VisXelem_t *VXaddelem (lptr, vxtype, buf, size);
+VisXelem_t *lptr;
+int vxtype, size;
+char *buf;
+.B
+VisXelem_t *VXlnkelem (lptr, vxtype, buf, size);
+VisXelem_t *lptr;
+int vxtype, size;
+char *buf;
+.B
+VisXelem_t *VXdelelem (lptr);
+VisXelem_t *list;
+.fi
+
+.SH DESCRIPTION
+VisionX represents information internally as a doubly linked list
+of data elements. Each element contains a type descriptor,
+forward and backward pointers to other elements, and data.
+The VisionX file i/o functions read and write these lists.
+
+The first element of a list
+is always a dummy element that is required for consistency.
+The element manipulation functions
+provide a set of programming tools for locating and  performing
+operations on single 
+list elements.
+
+The element manipulation functions include the following:
+.I VXaddelem
+\- add a new element after the given pointer position
+.I VXlnkelem
+\- link a new element after the given pointer position
+and
+.I VXdelelem
+\- delete the current element.
+
+.SH VXADDELEM
+.PP
+.I VXaddelem
+adds a new data element AFTER the element pointed to by 
+.I lptr.
+The contents of the element are specified by the remaining arguments.
+.I vxtype
+specifies the VisionX type of the element,
+.I buf is a pointer to a buffer where the data is contained, and
+.I size 
+specifies the size of the data in buf (IN BYTES).
+VXaddelem creates the new element and copies the data from the
+data buffer.
+Note, if the base type of the element is a scalar (VX_SCALAR) then
+.I size 
+specifies the value of the element and 
+.I buf
+is ignored.
+Note, if the base type of the element is a null (VX_NULL)
+then both the arguments
+.I size
+and
+.I buf
+are ignored.
+VXaddelem returns a pointer to the new element.
+
+.SH VXLNKELEM
+.PP
+.I VXlnkelem
+is similar in operation to VXaddelem with the difference that
+the data buffer specified by
+.I buf
+is simply linked (pointed to) by the new element.
+Note, 
+.I buf
+MUST have been previously dynamically allocated with Vmalloc.
+VXlnkelem may frequently be used instead of VXaddelem and is
+useful for efficiency because it avoids copying the data array
+.I buf.
+However, the program is responsible for allocating the buffer
+and must not reuse or deallocate this buffer after the call to
+VXlnkelem. This function should only be used by experienced
+programmers.
+
+.SH VXDELELEM
+.PP
+.I VXdelelem 
+deletes the element pointed to by the argument
+.I lptr.
+If there exists an element in the list following the element being
+deleted then a pointer to that element is returned.
+If the element being deleted is the last element in the list
+then a pointer to the previous element is returned.
+(If the list is empty then the dummy element is deleted and
+a null pointer (VXNIL) is returned).
+
+
+.SH AUTHOR
+Software and documentation copyright Anthony P. Reeves
